@@ -33,8 +33,8 @@
 (defun getOdds (chart acting difficulty)
   (let* ((odds (nth (position difficulty ranks) (nth (position acting ranks) chart)))
 	(throw (random 99))
-	(lower (ceiling odds 5))
-	(upper (- 100 (ceiling (- 99 odds) 5)))
+	(lower (floor odds 5))
+	(upper (- 100 (floor (- 99 odds) 5)))
 	(answer 
 	 (cond ((<= throw lower) 'exceptional-yes)
 	       ((<= throw odds) 'yes)
