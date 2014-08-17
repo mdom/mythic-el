@@ -29,6 +29,12 @@
 	superhuman
 	superhuman2))
 
+(defmacro mythic-threshhold (throw &rest clauses) 
+  (declare (indent 1))
+  (let (result)
+    (dolist (clause clauses result)
+      (setq result (cons `((<= ,throw ,(car clause)) ,(cadr clause)) result)))
+    `(cond ,@(nreverse result))))
 
 (defun getOdds (chart acting difficulty)
   (let* ((odds (nth (position difficulty ranks) (nth (position acting ranks) chart)))
@@ -36,20 +42,22 @@
 	(lower (floor odds 5))
 	(upper (- 100 (floor (- 99 odds) 5)))
 	(answer 
-	 (cond ((<= throw lower) 'exceptional-yes)
-	       ((<= throw odds) 'yes)
-	       ((>= throw upper) 'exceptional-no)
-	       ('no))))
+	 (mythic-threshhold throw
+	   (lower 'exceptional-yes)
+	   (odds 'yes)
+	   ((1- upper) 'no)
+	   (100   'exceptional-no))))    
     (list answer throw odds lower (if (>= upper 100) 0 upper))))
 
 ;(setq chaos-level 5)
 
 (defun chaos-level-rank (chaos-level)
-  (cond ((< chaos-level 2) 'high)
-	((< chaos-level 4) 'above-average)
-	((< chaos-level 7) 'average)
-	((< chaos-level 9) 'below-average)
-	((< choas-level 11) 'low)))
+  (mythic-threshhold chaos-level
+    (1 'high)
+    (3 'above-average)
+    (6 'average)
+    (8 'below-average)
+    (10 'low)))
 
 (defun odds-question (chart acting)
   (getOdds chart acting (chaos-level-rank chaos-level)))
