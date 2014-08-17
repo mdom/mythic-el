@@ -60,7 +60,7 @@
 	   (100   'exceptional-no))))    
     (list answer throw odds lower (if (>= upper 100) 0 upper))))
 
-;(setq chaos-level 5)
+(setq chaos-level 5)
 
 (defun chaos-level-rank (chaos-level)
   (mythic-threshold chaos-level
