@@ -1,6 +1,6 @@
 (require 'cl-seq)
 
-(setq fateChart
+(setq fate-chart
       '((50  25  10  5  5  0  0  -20  -20  -40  -40  -55  -65)
 	(75  50  25  15  10  5  5  0  0  -20  -20  -35  -45)
 	(90  75  50  35  25  15  10  5  5  0  0  -15  -25)
@@ -59,11 +59,12 @@
     (8 'below-average)
     (10 'low)))
 
-(defun odds-question (chart acting)
-  (getOdds chart acting (chaos-level-rank chaos-level)))
+(defun odds-question (acting)
+  (interactive)
+  (getOdds fate-chart acting (chaos-level-rank chaos-level)))
 
-;(getOdds fateChart 'superhuman2 'average)
-;(odds-question fateChart 'above-average)
+;(getOdds 'superhuman2 'average)
+;(odds-question fate-chart 'above-average)
 
 ;focusArray[0] = new Array("5/Standard game.  Regular fate chart rules."  "1/7/Remote event"  "8/28/NPC action"  "29/35/Introduce a new NPC"  "36/45/Move towards a thread"  "46/52/Move away from a thread"  "53/55/Close a thread"  "56/67/PC negative"  "68/75/PC positive"  "76/83/Ambiguous event"  "84/92/NPC negative"  "93/100/NPC positive")
 
