@@ -1,5 +1,16 @@
 (require 'cl-seq)
 
+(define-derived-mode mythic-mode text-mode "Mythic" "Mode to play mythic rpg")
+
+(defvar mythic-mode-map nil
+  "Keys for mythic mode")
+
+(unless mythic-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "\C-c5" (lambda () (interactive) (odds-question 'average)))
+    (define-key map "\C-c\C-c" (lambda () (interactive) (odds-question 'average)))
+    (setq mythic-mode-map map)))
+
 (setq fate-chart
       '((50  25  10  5  5  0  0  -20  -20  -40  -40  -55  -65)
 	(75  50  25  15  10  5  5  0  0  -20  -20  -35  -45)
