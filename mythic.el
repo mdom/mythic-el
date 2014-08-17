@@ -29,7 +29,7 @@
 	superhuman
 	superhuman2))
 
-(defmacro mythic-threshhold (throw &rest clauses) 
+(defmacro mythic-threshold (throw &rest clauses) 
   (declare (indent 1))
   (let (result)
     (dolist (clause clauses result)
@@ -42,7 +42,7 @@
 	(lower (floor odds 5))
 	(upper (- 100 (floor (- 99 odds) 5)))
 	(answer 
-	 (mythic-threshhold throw
+	 (mythic-threshold throw
 	   (lower 'exceptional-yes)
 	   (odds 'yes)
 	   ((1- upper) 'no)
@@ -52,7 +52,7 @@
 ;(setq chaos-level 5)
 
 (defun chaos-level-rank (chaos-level)
-  (mythic-threshhold chaos-level
+  (mythic-threshold chaos-level
     (1 'high)
     (3 'above-average)
     (6 'average)
