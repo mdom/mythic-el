@@ -60,8 +60,25 @@
 	   (100   'exceptional-no))))    
     (list answer throw odds lower (if (>= upper 100) 0 upper))))
 
+(defun event-happend? (odds)
+  (= (% odds 11) 0))
+
 (defun d100 ()
   (1+ (random 99)))
+
+(defun what-event? ()
+  (mythic-threshold (d100)
+    (7 "Remote event")
+    (28 "NPC action")
+    (35 "Introduce a new NPC")
+    (45 "Move towards a thread")
+    (52 "Move away from a thread")
+    (55 "Close a thread")
+    (67 "PC negative")
+    (75 "PC positive")
+    (83 "Ambiguous event")  
+    (92 "NPC negative")
+    (100 "NPC positive")))
 
 (setq chaos-level 5)
 
