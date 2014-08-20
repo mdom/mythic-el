@@ -49,7 +49,7 @@
 
 (defun getOdds (chart acting difficulty)
   (let* ((odds (nth (position difficulty ranks) (nth (position acting ranks) chart)))
-	(throw (random 99))
+	(throw (d100))
 	(lower (floor odds 5))
 	(upper (- 100 (floor (- 99 odds) 5)))
 	(answer 
@@ -59,6 +59,9 @@
 	   ((1- upper) 'no)
 	   (100   'exceptional-no))))    
     (list answer throw odds lower (if (>= upper 100) 0 upper))))
+
+(defun d100 ()
+  (1+ (random 99)))
 
 (setq chaos-level 5)
 
