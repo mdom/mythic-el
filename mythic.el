@@ -130,11 +130,14 @@
 		 "Victory"  "Dispute"  "Riches"  "Status quo"  "Technology"  "Hope"  "Magic"  "Illusions"  "Portals"  "Danger"  "Weapons"  "Animals"  "Weather"  "Elements"  "Nature"  "The public"  "Leadership"  "Fame"  "Anger"  "Information"
 		 ))
 
+(defun mythic-random-element (list)
+  (nth (random (1- (length list))) list))
+
 (defun random-event ()
   (concat 
-   (nth (random (1- (length Actions))) Actions)
+   (mythic-random-element Actions)
    "/"
-   (nth (random (1- (length Subjects))) Subjects)))
+   (mythic-random-element Subjects)))
 
 ;(random-event)
 
