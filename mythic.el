@@ -11,7 +11,7 @@
     (define-key map "\C-c\C-c" (lambda () (interactive) (odds-question 'average)))
     (setq mythic-mode-map map)))
 
-(setq fate-chart
+(setq mythic-fate-chart
       '((50  25  10  5  5  0  0  -20  -20  -40  -40  -55  -65)
 	(75  50  25  15  10  5  5  0  0  -20  -20  -35  -45)
 	(90  75  50  35  25  15  10  5  5  0  0  -15  -25)
@@ -26,7 +26,7 @@
 	(150  145  130  100  100  95  95  90  85  80  75  50  25)
 	(170  165  150  120  120  100  100  95  95  90  90  75  50)))
 
-(setq ranks
+(setq mythic-ranks
       '(miniscule2 
 	miniscule 
 	weak 
@@ -47,9 +47,9 @@
       (setq result (cons `((<= ,throw ,(car clause)) ,(cadr clause)) result)))
     `(cond ,@(nreverse result))))
 
-(defun getOdds (chart acting difficulty)
-  (let* ((odds (nth (position difficulty ranks) (nth (position acting ranks) chart)))
-	(throw (d100))
+(defun mythic-get-odds (acting difficulty)
+  (let* ((odds (nth (position difficulty mythic-ranks) (nth (position acting mythic-ranks) mythic-fate-chart)))
+	(throw (mythic-d100))
 	(lower (floor odds 5))
 	(upper (- 100 (floor (- 99 odds) 5)))
 	(answer 
@@ -60,14 +60,14 @@
 	   (100   'exceptional-no))))    
     (list answer throw odds lower (if (>= upper 100) 0 upper))))
 
-(defun event-happend? (odds)
+(defun mythic-event-happend? (odds)
   (= (% odds 11) 0))
 
-(defun d100 ()
+(defun mythic-d100 ()
   (1+ (random 99)))
 
-(defun what-event? ()
-  (mythic-threshold (d100)
+(defun mythic-what-event? ()
+  (mythic-threshold (mythic-d100)
     (7 "Remote event")
     (28 "NPC action")
     (35 "Introduce a new NPC")
@@ -80,22 +80,22 @@
     (92 "NPC negative")
     (100 "NPC positive")))
 
-(setq chaos-level 5)
+(setq mythic-chaos-level 5)
 
-(defun chaos-level-rank (chaos-level)
-  (mythic-threshold chaos-level
+(defun mythic-chaos-level-rank (mythic-chaos-level)
+  (mythic-threshold mythic-chaos-level
     (1 'high)
     (3 'above-average)
     (6 'average)
     (8 'below-average)
     (10 'low)))
 
-(defun odds-question (acting)
+(defun mythic-odds-question (acting)
   (interactive)
-  (getOdds fate-chart acting (chaos-level-rank chaos-level)))
+  (mythic-get-odds acting (mythic-chaos-level-rank mythic-chaos-level)))
 
-;(getOdds 'superhuman2 'average)
-;(odds-question fate-chart 'above-average)
+;(mythic-get-odds 'superhuman2 'average)
+;(mythic-odds-question 'above-average)
 
 ;focusArray[0] = new Array("5/Standard game.  Regular fate chart rules."  "1/7/Remote event"  "8/28/NPC action"  "29/35/Introduce a new NPC"  "36/45/Move towards a thread"  "46/52/Move away from a thread"  "53/55/Close a thread"  "56/67/PC negative"  "68/75/PC positive"  "76/83/Ambiguous event"  "84/92/NPC negative"  "93/100/NPC positive")
 
