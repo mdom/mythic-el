@@ -67,7 +67,7 @@
 (defun mythic-d100 ()
   (1+ (random 99)))
 
-(defun mythic-what-event? ()
+(defun mythic-event-focus ()
   (mythic-threshold (mythic-d100)
     (7 "Remote event")
     (28 "NPC action")
@@ -171,12 +171,14 @@
 (defun mythic-random-element (list)
   (nth (random (1- (length list))) list))
 
-(defun random-event ()
+(defun mythic-random-event ()
   (concat 
+   (mythic-event-focus)
+   " - "
    (mythic-random-element mythic-event-actions)
    "/"
    (mythic-random-element mythic-event-subjects)))
 
-;(random-event)
+;;(mythic-random-event)
 
 (provide 'mythic)
