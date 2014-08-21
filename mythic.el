@@ -1,4 +1,4 @@
-(require 'cl-seq)
+(require 'cl)
 
 (define-derived-mode mythic-mode text-mode "Mythic" "Mode to play mythic rpg")
 
