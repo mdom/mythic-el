@@ -112,7 +112,7 @@
 
 ; focusArray[6] = new Array("5/Epic game: the Chaos Factor cannot fall below 3.  Any scene which would normally lower the Chaos below 3 leaves it unchanged."  "1/12/Thread escalates"  "13/16/Remote event"  "17/30/NPC action"  "31/42/Introduce an NPC"  "43/46/Move toward a thread"  "47/58/Move away from a thread"  "59/72/PC negative"  "73/80/PC positive"  "81/84/Ambiguous event"  "85/92/NPC negative"  "93/100/NPC positive")
 
-(setq Actions '(
+(setq mythic-event-actions '(
 		"Attainment" "Starting"        "Neglect"     "Fight"
 		"Recruit"    "Triumph"         "Violate"     "Oppose"
 		"Malice"     "Communicate"     "Persecute"   "Increase"
@@ -140,7 +140,7 @@
 		"Transform"   "Overthrow"      "Oppress"     "Change"
 		))
 
-(setq Subjects '(
+(setq mythic-event-subjects '(
 		 "Goals"          "Dreams"            "Environment"       "Outside"
 		 "Inside"         "Realities"         "Allies"            "Enemies"
 		 "Evil"           "Good"              "Emotions"          "Opposition"
@@ -173,9 +173,9 @@
 
 (defun random-event ()
   (concat 
-   (mythic-random-element Actions)
+   (mythic-random-element mythic-event-actions)
    "/"
-   (mythic-random-element Subjects)))
+   (mythic-random-element mythic-event-subjects)))
 
 ;(random-event)
 
