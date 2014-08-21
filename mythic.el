@@ -61,7 +61,8 @@
     (list answer throw odds lower (if (>= upper 100) 0 upper))))
 
 (defun mythic-event-happend? (odds)
-  (= (% odds 11) 0))
+  (and (<= (/ odds 11) mythic-chaos-level)
+       (= (% odds 11) 0)))
 
 (defun mythic-d100 ()
   (1+ (random 99)))
