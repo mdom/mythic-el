@@ -7,8 +7,7 @@
 
 (unless mythic-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map "\C-c5" (lambda () (interactive) (odds-question 'average)))
-    (define-key map "\C-c\C-c" (lambda () (interactive) (odds-question 'average)))
+    (define-key map "\C-cb" (lambda () (interactive) (mythic-odds-question 'below-average)))
     (setq mythic-mode-map map)))
 
 (setq mythic-fate-chart
