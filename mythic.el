@@ -60,6 +60,10 @@
 	   (100   'exceptional-no))))    
     (list answer throw odds lower (if (>= upper 100) 0 upper))))
 
+(defun mythic-get-event (answer)
+  (when (mythic-event-happend-p answer)
+      (mythic-random-event)))
+
 (defun mythic-event-happend-p (odds)
   (and (<= (/ odds 11) mythic-chaos-level)
        (= (% odds 11) 0)))
