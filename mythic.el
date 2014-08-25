@@ -26,7 +26,7 @@
 	(170  165  150  120  120  100  100  95  95  90  90  75  50)))
 
 (setq mythic-ranks
-      '(miniscule2 
+      '(miniscule2
 	miniscule 
 	weak 
 	low
