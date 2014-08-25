@@ -68,6 +68,9 @@
   (and (<= (/ odds 11) mythic-chaos-level)
        (= (% odds 11) 0)))
 
+(defun mythic-get (key alist)
+  (cadr (assoc key alist)))
+
 (defun mythic-d100 ()
   (1+ (random 99)))
 
