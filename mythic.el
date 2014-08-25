@@ -48,16 +48,22 @@
 
 (defun mythic-get-odds (acting difficulty)
   (let* ((odds (nth (position difficulty mythic-ranks) (nth (position acting mythic-ranks) mythic-fate-chart)))
-	(throw (mythic-d100))
-	(lower (floor odds 5))
-	(upper (- 100 (floor (- 99 odds) 5)))
-	(answer 
-	 (mythic-threshold throw
-	   (lower 'exceptional-yes)
-	   (odds 'yes)
-	   ((1- upper) 'no)
-	   (100   'exceptional-no))))    
-    (list answer throw odds lower (if (>= upper 100) 0 upper))))
+	 (throw (mythic-d100))
+	 (lower (floor odds 5))
+	 (upper (- 100 (floor (- 99 odds) 5)))
+	 (answer
+	  (mythic-threshold throw
+			    (lower 'exceptional-yes)
+			    (odds 'yes)
+			    ((1- upper) 'no)
+			    (100 'exceptional-no))))
+    (list
+     (list 'answer answer)
+     (list 'throw throw)
+     (list 'odds odds)
+     (list 'lower lower)
+     (list 'upper  (if (>= upper 100) 0 upper))
+     (list 'event (mythic-get-event throw)))))
 
 (defun mythic-get-event (answer)
   (when (mythic-event-happend-p answer)
