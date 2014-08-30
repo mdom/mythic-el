@@ -5,9 +5,37 @@
 (defvar mythic-mode-map nil
   "Keys for mythic mode")
 
+(defmacro mythic-kbd-odds (map list)
+  (let ((result))
+    (dolist (elt (eval list) result)
+      (let ((rank (car elt))
+	    (key (cadr elt)))
+	(setq result 
+	      (cons `(define-key ,map
+		       (kbd ,(concat "C-c o " key))
+		       (lambda ()
+			 (interactive)
+			 (mythic-odds-question ,rank)))
+		    result))))
+    `(progn ,@result)))
+
 (unless mythic-mode-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map "\C-cb" (lambda () (interactive) (mythic-odds-question 'below-average)))
+  (let ((map (make-sparse-keymap))
+	(alist 
+	 '(("miniscule" "m")
+	   ("weak" "w")
+	   ("low" "l")
+	   ("below-average" "b")
+	   ("average" "a")
+	   ("above-average" "o")
+	   ("high" "h")
+	   ("exceptional" "e")
+	   ("incredible" "i")
+	   ("awesome" "s")
+	   ("superhuman" "u"))))
+    (mythic-kbd-odds map alist)
+    (define-key map (kbd "C-c C-o") 'mythic-odds-question)
+    (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
     (setq mythic-mode-map map)))
 
 (setq mythic-fate-chart
