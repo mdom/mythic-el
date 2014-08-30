@@ -122,6 +122,11 @@
   (mythic-format-answer
    (mythic-get-odds acting (mythic-chaos-level-rank mythic-chaos-level))))
 
+(defun mythic-resisted-question (acting difficulty)
+  (interactive (list (mythic-complete-rank "Acting rank: ") (mythic-complete-rank "Resisted rank: ")))
+  (mythic-format-answer
+   (mythic-get-odds acting (mythic-chaos-level-rank mythic-chaos-level))))
+
 (setq mythic-event-actions '(
 		"Attainment" "Starting"        "Neglect"     "Fight"
 		"Recruit"    "Triumph"         "Violate"     "Oppose"
