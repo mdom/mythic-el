@@ -25,6 +25,9 @@
 	(150  145  130  100  100  95  95  90  85  80  75  50  25)
 	(170  165  150  120  120  100  100  95  95  90  90  75  50)))
 
+(defun mythic-complete-rank (prompt)
+  (completing-read prompt mythic-ranks))
+
 (setq mythic-ranks
       '("miniscule2"
 	"miniscule"
@@ -115,7 +118,7 @@
     (10 'low)))
 
 (defun mythic-odds-question (acting)
-  (interactive)
+  (interactive (list (mythic-complete-rank "Acting rank: ")))
   (mythic-format-answer
    (mythic-get-odds acting (mythic-chaos-level-rank mythic-chaos-level))))
 
