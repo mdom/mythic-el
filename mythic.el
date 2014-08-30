@@ -26,18 +26,19 @@
 	(170  165  150  120  120  100  100  95  95  90  90  75  50)))
 
 (setq mythic-ranks
-      '(miniscule2
-	miniscule 
-	weak 
-	low
-	below-average
-	average
-	above-average
-	high exceptional
-	incredible
-	awesome
-	superhuman
-	superhuman2))
+      '("miniscule2"
+	"miniscule"
+	"weak"
+	"low"
+	"below-average"
+	"average"
+	"above-average"
+	"high"
+	"exceptional"
+	"incredible"
+	"awesome"
+	"superhuman"
+	"superhuman2"))
 
 (defmacro mythic-threshold (throw &rest clauses) 
   (declare (indent 1))
@@ -46,8 +47,11 @@
       (setq result (cons `((<= ,throw ,(car clause)) ,(cadr clause)) result)))
     `(cond ,@(nreverse result))))
 
+(defun mythic-rank-pos (difficulty)
+  (position difficulty mythic-ranks :test 'string=))
+
 (defun mythic-get-odds (acting difficulty)
-  (let* ((odds (nth (position difficulty mythic-ranks) (nth (position acting mythic-ranks) mythic-fate-chart)))
+  (let* ((odds (nth (mythic-rank-pos difficulty) (nth (mythic-rank-pos acting) mythic-fate-chart)))
 	 (throw (mythic-d100))
 	 (lower (floor odds 5))
 	 (upper (- 100 (floor (- 99 odds) 5)))
