@@ -163,7 +163,7 @@
   (mythic-format-answer
    (mythic-get-odds acting (mythic-chaos-level-rank mythic-chaos-level))))
 
-(setq mythic-event-actions '(
+(defconst mythic-event-actions '(
 		"Attainment" "Starting"        "Neglect"     "Fight"
 		"Recruit"    "Triumph"         "Violate"     "Oppose"
 		"Malice"     "Communicate"     "Persecute"   "Increase"
@@ -189,9 +189,10 @@
 		"Attract"     "Failure"        "Pursue"      "Vengeance"
 		"Proceedings" "Dispute"        "Punish"      "Guide"
 		"Transform"   "Overthrow"      "Oppress"     "Change"
-		))
+		)
+  "List of actions for random events.")
 
-(setq mythic-event-subjects '(
+(defconst mythic-event-subjects '(
 		 "Goals"          "Dreams"            "Environment"       "Outside"
 		 "Inside"         "Realities"         "Allies"            "Enemies"
 		 "Evil"           "Good"              "Emotions"          "Opposition"
@@ -217,7 +218,8 @@
 		 "Portals"        "Danger"            "Weapons"           "Animals"
 		 "Weather"        "Elements"          "Nature"            "The public"
 		 "Leadership"     "Fame"              "Anger"             "Information"
-		 ))
+		 ) 
+  "List of subjects for random events.")
 
 (defun mythic-random-element (list)
   (nth (random (1- (length list))) list))
