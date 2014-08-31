@@ -114,9 +114,11 @@
   (cadr (assoc key alist)))
 
 (defun mythic-d100 ()
+  "Returns a random value between 1 and 100."
   (1+ (random 99)))
 
 (defun mythic-event-focus ()
+  "Returns the focus of a random event."
   (mythic-threshold (mythic-d100)
     (7 "Remote event")
     (28 "NPC action")
