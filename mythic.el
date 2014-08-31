@@ -5,23 +5,17 @@
 (defvar mythic-mode-map nil
   "Keys for mythic mode")
 
-(defmacro mythic-kbd-odds (map list)
-  (let ((result))
-    (dolist (elt (eval list) result)
-      (let ((rank (car elt))
-	    (key (cadr elt)))
-	(setq result 
-	      (cons `(define-key ,map
-		       (kbd ,(concat "C-c o " key))
-		       (lambda ()
-			 (interactive)
-			 (mythic-odds-question ,rank)))
-		    result))))
-    `(progn ,@result)))
+(defmacro mythic-kbd (map key func &rest ranks)
+  (let ((rank (mapcar 'eval ranks)))
+    `(define-key ,map
+       ,key
+       (lambda ()
+	 (interactive)
+	 (apply ,func (quote ,rank))))))
 
 (unless mythic-mode-map
   (let ((map (make-sparse-keymap))
-	(alist 
+	(keys 
 	 '(("miniscule" "m")
 	   ("weak" "w")
 	   ("low" "l")
@@ -33,7 +27,15 @@
 	   ("incredible" "i")
 	   ("awesome" "s")
 	   ("superhuman" "u"))))
-    (mythic-kbd-odds map alist)
+    (dolist (elt keys)
+      (let ((key (cadr elt))
+	    (arg (car elt)))
+	(mythic-kbd map (concat "\C-co" key) 'mythic-odds-question arg)
+	(dolist (elt2 keys)
+	  (let ((key2 (cadr elt2))
+		(arg2 (car elt2)))
+	    (message key2)
+	    (mythic-kbd map (concat "\C-cr" key key2) 'mythic-resisted-question arg arg2)))))
     (define-key map (kbd "C-c C-o") 'mythic-odds-question)
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
     (setq mythic-mode-map map)))
