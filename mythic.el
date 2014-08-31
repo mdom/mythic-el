@@ -142,12 +142,13 @@
        (message message))))
 
 (defun mythic-chaos-level-rank (mythic-chaos-level)
+  "Convert the numeric chaos level to its string representation."
   (mythic-threshold mythic-chaos-level
-    (1 'high)
-    (3 'above-average)
-    (6 'average)
-    (8 'below-average)
-    (10 'low)))
+    (1 "high")
+    (3 "above-average")
+    (6 "average")
+    (8 "below-average")
+    (10 "low")))
 
 (defun mythic-odds-question (acting)
   (interactive (list (mythic-complete-rank "Acting rank: ")))
