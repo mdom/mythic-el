@@ -1,5 +1,8 @@
 (require 'cl)
 
+;; seed random
+(random 't)
+
 (define-derived-mode mythic-mode text-mode "Mythic" "Mode to play mythic rpg")
 
 (defvar mythic-mode-map nil
