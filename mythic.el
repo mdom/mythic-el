@@ -42,6 +42,7 @@
 	    (mythic-kbd map (concat "\C-cr" key key2) 'mythic-resisted-question arg arg2)))))
     (define-key map (kbd "C-c C-o") 'mythic-odds-question)
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
+    (define-key map (kbd "C-c d") 'mythic-dice)
     (setq mythic-mode-map map)))
 
 (defconst mythic-fate-chart
