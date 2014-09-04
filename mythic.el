@@ -3,7 +3,8 @@
 ;; seed random
 (random 't)
 
-(define-derived-mode mythic-mode text-mode "Mythic" "Mode to play mythic rpg")
+(define-derived-mode mythic-mode text-mode "Mythic" "Mode to play mythic rpg"
+  (make-local-variable 'mythic-chaos-level))
 
 (defvar mythic-mode-map nil
   "Keys for mythic mode")
