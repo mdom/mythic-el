@@ -77,6 +77,19 @@
     "superhuman"
     "superhuman2"))
 
+(defconst mythic-ranks-odds
+  '("impossible"
+    "no way"
+    "very unlikely"
+    "unlikely"
+    "50/50"
+    "somewhat likely"
+    "likely"
+    "very likely"
+    "near sure thing"
+    "a sure thing"
+    "has to be"))
+
 (defmacro mythic-threshold (throw &rest clauses) 
   (declare (indent 1))
   (let (result)
