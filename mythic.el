@@ -61,9 +61,6 @@
       "This two dimensional list cross references the odds of the acting rank versus the difficulty rank."
 )
 
-(defun mythic-complete-rank (prompt)
-  (completing-read prompt mythic-ranks))
-
 (defconst mythic-ranks
       '("miniscule2"
 	"miniscule"
@@ -155,6 +152,10 @@
     (6 "average")
     (8 "below-average")
     (10 "low")))
+
+
+(defun mythic-complete-rank (prompt)
+  (completing-read prompt mythic-ranks))
 
 (defun mythic-odds-question (acting)
   (interactive (list (mythic-complete-rank "Acting rank: ")))
