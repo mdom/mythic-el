@@ -237,7 +237,7 @@
 
 (defun mythic-dice (dice-spec)
   "Roll dice according to dice-spec. Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
-  (interactive)
+  (interactive "sDice: ")
   (if (string-match "\\s-*\\([[:digit:]]+\\)*\\s-*d\\([[:digit:]]+\\)\\s-*\\([+-][[:digit:]]+\\)*" dice-spec)
       (let ((number (string-to-int (or (match-string 1 dice-spec) "1")))
 	    (sides (string-to-int (match-string 2 dice-spec)))
@@ -245,7 +245,12 @@
 	    (result 0))
 	(dotimes (i number result)
 	  (setq result (+ result (1+ (random sides)))))
-	(+ result modifier))))
+	(setq result (+ result modifier))
+	(if (interactive-p)
+	    (message "Result of %s: %s" dice-spec result)
+	  result))
+    (when (interactive-p)
+      (message "Invalid dice %s" dice-spec))))
 
 (provide 'mythic)
 
