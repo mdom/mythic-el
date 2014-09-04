@@ -43,7 +43,7 @@
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
     (setq mythic-mode-map map)))
 
-(setq mythic-fate-chart
+(defconst mythic-fate-chart
       '(( 50  25   10   5  5   0    0 -20 -20 -40 -40 -55 -65)
 	( 75  50   25  15  10  5    5   0   0 -20 -20 -35 -45)
 	( 90  75   50  35  25  15  10   5   5   0   0 -15 -25)
@@ -61,7 +61,7 @@
 (defun mythic-complete-rank (prompt)
   (completing-read prompt mythic-ranks))
 
-(setq mythic-ranks
+(defconst mythic-ranks
       '("miniscule2"
 	"miniscule"
 	"weak"
@@ -135,7 +135,7 @@
     (92 "NPC negative")
     (100 "NPC positive")))
 
-(setq mythic-chaos-level 5)
+(defvar mythic-chaos-level 5)
 
  (defun mythic-format-answer (odds)
    (let ((message (format "Answer: %s" (mythic-get 'answer odds)))
