@@ -63,19 +63,19 @@
 )
 
 (defconst mythic-ranks
-      '("miniscule2"
-	"miniscule"
-	"weak"
-	"low"
-	"below-average"
-	"average"
-	"above-average"
-	"high"
-	"exceptional"
-	"incredible"
-	"awesome"
-	"superhuman"
-	"superhuman2"))
+  '("miniscule2"
+    "miniscule"
+    "weak"
+    "low"
+    "below-average"
+    "average"
+    "above-average"
+    "high"
+    "exceptional"
+    "incredible"
+    "awesome"
+    "superhuman"
+    "superhuman2"))
 
 (defmacro mythic-threshold (throw &rest clauses) 
   (declare (indent 1))
