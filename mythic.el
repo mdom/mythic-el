@@ -57,7 +57,9 @@
 	(125 115  100  95  95  90  80  75  55  50  45  20  10)
 	(130 125  110  95  95  90  85  80  65  55  50  25  10)
 	(150 145  130 100 100  95  95  90  85  80  75  50  25)
-	(170 165  150 120 120 100 100  95  95  90  90  75  50)))
+	(170 165  150 120 120 100 100  95  95  90  90  75  50))
+      "This two dimensional list cross references the odds of the acting rank versus the difficulty rank."
+)
 
 (defun mythic-complete-rank (prompt)
   (completing-read prompt mythic-ranks))
