@@ -233,13 +233,16 @@
    (mythic-random-element mythic-event-subjects)))
 
 (defun mythic-dice (dice-spec)
+  "Roll dice according to dice-spec. Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
   (interactive)
-  (if (string-match "\\s-*d\\([[:digit:]]+\\)\\s-*\\([+-[:digit:]]\\)*\\s-*" dice-spec)
-      (let ((sides (match-string 1 dice-spec))
-	    (modifier (match-string 2 dice-spec)))
-	(1+ (random (string-to-int sides))))))
-
-;; (dice "d20")
+  (if (string-match "\\s-*\\([[:digit:]]+\\)*\\s-*d\\([[:digit:]]+\\)\\s-*\\([+-][[:digit:]]+\\)*" dice-spec)
+      (let ((number (string-to-int (or (match-string 1 dice-spec) "1")))
+	    (sides (string-to-int (match-string 2 dice-spec)))
+	    (modifier (string-to-int (or (match-string 3 dice-spec) "0")))
+	    (result 0))
+	(dotimes (i number result)
+	  (setq result (+ result (1+ (random sides)))))
+	(+ result modifier))))
 
 (provide 'mythic)
 
