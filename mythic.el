@@ -167,7 +167,9 @@
    (mythic-get-odds acting (mythic-chaos-level-rank mythic-chaos-level))))
 
 (defun mythic-resisted-question (acting difficulty)
-  (interactive (list (mythic-complete-rank "Acting rank: ") (mythic-complete-rank "Resisted rank: ")))
+  (interactive (list
+		(mythic-complete-rank "Acting rank: " 'resisted)
+		(mythic-complete-rank "Resisted rank: " 'resisted)))
   (mythic-format-answer
    (mythic-get-odds acting (mythic-chaos-level-rank mythic-chaos-level))))
 
