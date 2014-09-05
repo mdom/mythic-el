@@ -147,13 +147,7 @@
 
 (defun mythic-chaos-level-rank (mythic-chaos-level)
   "Convert the numeric chaos level to its string representation."
-  (mythic-threshold mythic-chaos-level
-    (1 "high")
-    (3 "above-average")
-    (6 "average")
-    (8 "below-average")
-    (10 "low")))
-
+  (cadr (nth (- 10 mythic-chaos-level) mythic-ranks)))
 
 (defun mythic-complete-rank (prompt type)
   (completing-read prompt
