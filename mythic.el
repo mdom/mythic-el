@@ -63,32 +63,19 @@
 )
 
 (defconst mythic-ranks
-  '("miniscule2"
-    "miniscule"
-    "weak"
-    "low"
-    "below-average"
-    "average"
-    "above-average"
-    "high"
-    "exceptional"
-    "incredible"
-    "awesome"
-    "superhuman"
-    "superhuman2"))
-
-(defconst mythic-ranks-odds
-  '("impossible"
-    "no way"
-    "very unlikely"
-    "unlikely"
-    "50/50"
-    "somewhat likely"
-    "likely"
-    "very likely"
-    "near sure thing"
-    "a sure thing"
-    "has to be"))
+  '(("miniscule2")
+    ("miniscule" "impossible")
+    ("weak" "no way")
+    ("low" "very unlikely")
+    ("below-average" "unlikely")
+    ("average" "50/50")
+    ("above-average" "somewhat likely")
+    ("high" "likely")
+    ("exceptional" "very likely")
+    ("incredible" "near sure thing")
+    ("awesome" "a sure thing")
+    ("superhuman" "has to be")
+    ("superhuman2")))
 
 (defmacro mythic-threshold (throw &rest clauses) 
   (declare (indent 1))
@@ -98,7 +85,7 @@
     `(cond ,@(nreverse result))))
 
 (defun mythic-rank-pos (difficulty)
-  (position difficulty mythic-ranks :test 'string=))
+  (position difficulty mythic-ranks :test 'member))
 
 (defun mythic-get-odds (acting difficulty)
   (let* ((odds (nth (mythic-rank-pos difficulty) (nth (mythic-rank-pos acting) mythic-fate-chart)))
@@ -168,11 +155,14 @@
     (10 "low")))
 
 
-(defun mythic-complete-rank (prompt)
-  (completing-read prompt mythic-ranks))
+(defun mythic-complete-rank (prompt type)
+  (completing-read prompt
+		   (if (eq type 'odds)
+		       (remove nil (mapcar 'cadr mythic-ranks))
+		     (mapcar 'car mythic-ranks))))
 
 (defun mythic-odds-question (acting)
-  (interactive (list (mythic-complete-rank "Acting rank: ")))
+  (interactive (list (mythic-complete-rank "Acting rank: " 'odds)))
   (mythic-format-answer
    (mythic-get-odds acting (mythic-chaos-level-rank mythic-chaos-level))))
 
