@@ -165,7 +165,7 @@
 		(mythic-complete-rank "Acting rank: " 'resisted)
 		(mythic-complete-rank "Resisted rank: " 'resisted)))
   (mythic-format-answer
-   (mythic-get-odds acting (mythic-chaos-level-rank mythic-chaos-level))))
+   (mythic-get-odds acting difficulty)))
 
 (defconst mythic-event-actions '(
 		"Attainment" "Starting"        "Neglect"     "Fight"
