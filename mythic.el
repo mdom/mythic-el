@@ -19,31 +19,24 @@
 
 (unless mythic-mode-map
   (let ((map (make-sparse-keymap))
-	(keys 
-	 '(("miniscule" "m")
-	   ("weak" "w")
-	   ("low" "l")
-	   ("below-average" "b")
-	   ("average" "a")
-	   ("above-average" "o")
-	   ("high" "h")
-	   ("exceptional" "e")
-	   ("incredible" "i")
-	   ("awesome" "s")
-	   ("superhuman" "u"))))
-    (dolist (elt keys)
-      (let ((key (cadr elt))
-	    (arg (car elt)))
-	(mythic-kbd map (concat "\C-co" key) 'mythic-odds-question arg)
-	(dolist (elt2 keys)
-	  (let ((key2 (cadr elt2))
-		(arg2 (car elt2)))
-	    (message key2)
-	    (mythic-kbd map (concat "\C-cr" key key2) 'mythic-resisted-question arg arg2)))))
+	(ranks (remove nil (mapcar 'cadr mythic-ranks))))
+    (dotimes (i (length ranks))
+      (let ((acting (nth i ranks)))
+	(mythic-kbd map (concat "\C-co" (mythic-number-to-key i)) 'mythic-odds-question acting)
+	(dotimes (j (length ranks))
+	  (let ((difficulty (nth j ranks)))
+	    (mythic-kbd map (concat "\C-cr" (mythic-number-to-key i) (mythic-number-to-key j)) 'mythic-resisted-question acting difficulty)))))
     (define-key map (kbd "C-c C-o") 'mythic-odds-question)
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
     (define-key map (kbd "C-c d") 'mythic-dice)
     (setq mythic-mode-map map)))
+
+(defun mythic-number-to-key (number)
+  (if (= number 10)
+      "+"
+    (if (= number 9)
+	"0"
+      (number-to-string (1+ number)))))
 
 (defconst mythic-fate-chart
       '(( 50  25   10   5  5   0    0 -20 -20 -40 -40 -55 -65)
