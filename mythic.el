@@ -81,7 +81,25 @@
   (position difficulty mythic-ranks :test 'member))
 
 (defun mythic-get-odds (acting difficulty)
-  (let* ((odds (nth (mythic-rank-pos difficulty) (nth (mythic-rank-pos acting) mythic-fate-chart)))
+  (let ((acting-modifier 0)
+	(difficulty-modifier 0))
+    (when (string-match "\\(miniscule\\|superhuman\\)\\([0-9]+\\)" acting)
+      (let ((rank (match-string 1 acting))
+	    (grade (- (string-to-number (match-string 2 acting)) 2)))
+	(when (> grade 0)
+	  (setq acting (concat rank "2"))
+	  (setq acting-modifier (* (if (string= rank "miniscule") -1 1) grade 20)))))
+    (when (string-match "\\(miniscule\\|superhuman\\)\\([0-9]+\\)" difficulty)
+      (let ((rank (match-string 1 difficulty))
+	    (grade (- (string-to-number (match-string 2 difficulty)) 2)))
+	(when (> grade 0)
+	  (setq difficulty (concat rank "2"))
+	  (setq difficulty-modifier (* (if (string= rank "miniscule") 1 -1) grade 20)))))
+    (+ acting-modifier difficulty-modifier
+       (nth (mythic-rank-pos difficulty) (nth (mythic-rank-pos acting) mythic-fate-chart)))))
+
+(defun mythic-ask-question (acting difficulty)
+  (let* ((odds (mythic-get-odds acting difficulty))
 	 (throw (mythic-d100))
 	 (lower (floor odds 5))
 	 (upper (- 100 (floor (- 99 odds) 5)))
@@ -151,14 +169,14 @@
 (defun mythic-odds-question (acting)
   (interactive (list (mythic-complete-rank "Acting rank: " 'odds)))
   (mythic-format-answer
-   (mythic-get-odds acting (mythic-chaos-level-rank mythic-chaos-level))))
+   (mythic-ask-question acting (mythic-chaos-level-rank mythic-chaos-level))))
 
 (defun mythic-resisted-question (acting difficulty)
   (interactive (list
 		(mythic-complete-rank "Acting rank: " 'resisted)
 		(mythic-complete-rank "Resisted rank: " 'resisted)))
   (mythic-format-answer
-   (mythic-get-odds acting difficulty)))
+   (mythic-ask-question acting difficulty)))
 
 (defconst mythic-event-actions '(
 		"Attainment" "Starting"        "Neglect"     "Fight"
