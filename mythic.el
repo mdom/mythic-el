@@ -161,10 +161,16 @@
   (cadr (nth (- 10 mythic-chaos-level) mythic-ranks)))
 
 (defun mythic-complete-rank (prompt type)
-  (completing-read prompt
-		   (if (eq type 'odds)
-		       (remove nil (mapcar 'cadr mythic-ranks))
-		     (mapcar 'car mythic-ranks))))
+  (let ((collection (if (eq type 'odds)
+			(remove nil (mapcar 'cadr mythic-ranks))
+		      (mapcar 'car mythic-ranks))))
+    (let ((rank (completing-read prompt collection)))
+      (if (or
+	   (member rank collection)
+	   (and (eq type 'resisted)
+		(string-match "\\(superhuman\\|miniscule\\)[0-9]+" rank)))
+	  rank
+	(error "Unknown rank: %s" rank)))))
 
 (defun mythic-odds-question (acting)
   (interactive (list (mythic-complete-rank "Acting rank: " 'odds)))
