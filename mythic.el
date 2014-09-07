@@ -81,6 +81,7 @@
   (position difficulty mythic-ranks :test 'member))
 
 (defun mythic-extreme-rank-modifier (rank)
+  "Returns the odds modifier for a rank below miniscule2 or above superhuman2."
   (if (string-match "\\(miniscule\\|superhuman\\)\\([0-9]+\\)" rank)
       (let ((rank (match-string 1 rank))
 	    (grade (- (string-to-number (match-string 2 rank)) 2)))
@@ -90,6 +91,7 @@
     0))
 
 (defun mythic-truncate-rank (rank)
+  "Truncates a rank below miniscule2 to miniscule2 and ranks above superhuman2 to superhuman2. Return rank unchanged if its a member of the rank list."
   (if (string-match "\\(miniscule\\|superhuman\\)[0-9]+" rank)
       (concat (match-string 1 rank) "2")
     rank))
