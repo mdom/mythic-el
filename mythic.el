@@ -9,13 +9,25 @@
 (defvar mythic-mode-map nil
   "Keys for mythic mode")
 
+(defun mythic-ask-grade (rank)
+  (if (string-match "\\(miniscule\\|superhuman\\)" rank)
+      (let ((grade (read-number (format "Grade for %s: " rank))))
+	(cond ((= grade 1) rank)
+	      ((> grade 1) (concat rank (number-to-string grade)))
+	      ((error "Grade of %s must be greater than 0" rank))))
+    rank))
+
 (defmacro mythic-kbd (map key func &rest ranks)
   (let ((rank (mapcar 'eval ranks)))
     `(define-key ,map
        ,key
-       (lambda ()
-	 (interactive)
-	 (apply ,func (quote ,rank))))))
+       (lambda (extreme-rank)
+	 (interactive "p")
+	 (let ((ranks (quote ,rank)))
+	   (apply ,func
+		  (if (= extreme-rank 4)
+		      (mapcar 'mythic-ask-grade ranks)
+		    ranks)))))))
 
 (unless mythic-mode-map
   (let ((map (make-sparse-keymap))
