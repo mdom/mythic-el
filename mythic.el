@@ -110,10 +110,10 @@
 	 (upper (- 100 (floor (- 99 odds) 5)))
 	 (answer
 	  (mythic-threshold throw
-			    (lower 'exceptional-yes)
-			    (odds 'yes)
-			    ((1- upper) 'no)
-			    (100 'exceptional-no))))
+	    (lower 'exceptional-yes)
+	    (odds 'yes)
+	    ((1- upper) 'no)
+	    (100 'exceptional-no))))
     (list
      (list 'answer answer)
      (list 'throw throw)
