@@ -97,12 +97,11 @@
     rank))
 
 (defun mythic-get-odds (acting difficulty)
-  (let ((acting-modifier (mythic-extreme-rank-modifier acting))
-	(difficulty-modifier (- (mythic-extreme-rank-modifier difficulty))))
-    (setq acting (mythic-truncate-rank acting))
-    (setq difficulty (mythic-truncate-rank difficulty))
-    (+ acting-modifier difficulty-modifier
-       (nth (mythic-rank-pos difficulty) (nth (mythic-rank-pos acting) mythic-fate-chart)))))
+  (+ (mythic-extreme-rank-modifier acting)
+     (- (mythic-extreme-rank-modifier difficulty))
+     (nth (mythic-rank-pos (mythic-truncate-rank difficulty))
+	  (nth (mythic-rank-pos (mythic-truncate-rank acting))
+	       mythic-fate-chart))))
 
 (defun mythic-ask-question (acting difficulty)
   (let* ((odds (mythic-get-odds acting difficulty))
