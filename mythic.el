@@ -70,6 +70,10 @@
     ("superhuman" "has to be")
     ("superhuman2")))
 
+(defun mythic-rank-translate (rank)
+  (let ((list (find rank mythic-ranks :test 'member)))
+    (car (remove rank list))))
+
 (defmacro mythic-threshold (throw &rest clauses) 
   (declare (indent 1))
   (let (result)
