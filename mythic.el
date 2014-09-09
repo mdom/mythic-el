@@ -171,12 +171,12 @@
 
 (defvar mythic-chaos-level 5)
 
- (defun mythic-format-answer (odds)
-   (let ((message (format "Answer: %s" (mythic-get 'answer odds)))
-	 (event (mythic-get 'event odds)))
-     (if event
-	 (message "%s -- Event: %s" message event)
-       (message message))))
+(defun mythic-format-answer (odds)
+  (let ((message (format "Answer: %s" (mythic-get 'answer odds)))
+	(event (mythic-get 'event odds)))
+    (if event
+	(message "%s -- Event: %s" message event)
+      (message message))))
 
 (defun mythic-chaos-level-rank (mythic-chaos-level)
   "Convert the numeric chaos level to its string representation."
