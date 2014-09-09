@@ -9,6 +9,21 @@
 (defvar mythic-mode-map nil
   "Keys for mythic mode")
 
+(unless mythic-mode-map
+  (let ((map (make-sparse-keymap))
+	(ranks (remove nil (mapcar 'cadr mythic-ranks))))
+    (dotimes (i (length ranks))
+      (let ((acting (nth i ranks)))
+	(mythic-kbd map (concat "\C-co" (mythic-number-to-key i)) 'mythic-odds-question acting)
+	(dotimes (j (length ranks))
+	  (let ((difficulty (mythic-rank-translate (nth j ranks)))
+		(acting (mythic-rank-translate acting)))
+	    (mythic-kbd map (concat "\C-cr" (mythic-number-to-key i) (mythic-number-to-key j)) 'mythic-resisted-question acting difficulty)))))
+    (define-key map (kbd "C-c C-o") 'mythic-odds-question)
+    (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
+    (define-key map (kbd "C-c d") 'mythic-dice)
+    (setq mythic-mode-map map)))
+
 (defun mythic-ask-grade (rank)
   (if (string-match "\\(miniscule\\|superhuman\\)" rank)
       (let ((grade (read-number (format "Grade for %s: " rank))))
@@ -28,21 +43,6 @@
 		  (if (> extreme-rank 1)
 		      (mapcar 'mythic-ask-grade ranks)
 		    ranks)))))))
-
-(unless mythic-mode-map
-  (let ((map (make-sparse-keymap))
-	(ranks (remove nil (mapcar 'cadr mythic-ranks))))
-    (dotimes (i (length ranks))
-      (let ((acting (nth i ranks)))
-	(mythic-kbd map (concat "\C-co" (mythic-number-to-key i)) 'mythic-odds-question acting)
-	(dotimes (j (length ranks))
-	  (let ((difficulty (mythic-rank-translate (nth j ranks)))
-		(acting (mythic-rank-translate acting)))
-	    (mythic-kbd map (concat "\C-cr" (mythic-number-to-key i) (mythic-number-to-key j)) 'mythic-resisted-question acting difficulty)))))
-    (define-key map (kbd "C-c C-o") 'mythic-odds-question)
-    (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
-    (define-key map (kbd "C-c d") 'mythic-dice)
-    (setq mythic-mode-map map)))
 
 (defun mythic-number-to-key (number)
   (if (= number 10)
