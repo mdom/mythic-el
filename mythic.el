@@ -87,7 +87,7 @@
   (let ((list (find rank mythic-ranks :test 'member)))
     (car (remove rank list))))
 
-(defmacro mythic-threshold (throw &rest clauses) 
+(defmacro mythic-threshold (throw &rest clauses)
   (declare (indent 1))
   (let (result)
     (dolist (clause clauses result)
@@ -165,7 +165,7 @@
     (55 "Close a thread")
     (67 "PC negative")
     (75 "PC positive")
-    (83 "Ambiguous event")  
+    (83 "Ambiguous event")
     (92 "NPC negative")
     (100 "NPC positive")))
 
@@ -261,14 +261,14 @@
 		 "Portals"        "Danger"            "Weapons"           "Animals"
 		 "Weather"        "Elements"          "Nature"            "The public"
 		 "Leadership"     "Fame"              "Anger"             "Information"
-		 ) 
+		 )
   "List of subjects for random events.")
 
 (defun mythic-random-element (list)
   (nth (random (1- (length list))) list))
 
 (defun mythic-random-event ()
-  (concat 
+  (concat
    (mythic-event-focus)
    " - "
    (mythic-random-element mythic-event-actions)
