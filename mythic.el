@@ -57,7 +57,7 @@
 	( 75  50   25  15  10  5    5   0   0 -20 -20 -35 -45)
 	( 90  75   50  35  25  15  10   5   5   0   0 -15 -25)
 	( 95  85   65  50  45  25  15  10   5   5   5  -5 -15)
-        (100  90   75  55  50  35  20  15  10   5   5   0 -10)
+	(100  90   75  55  50  35  20  15  10   5   5   0 -10)
 	(105  95   85  75  65  50  35  25  15  10  10   5  -5)
 	(110  95   90  85  80  65  50  45  25  20  15   5   0)
 	(115 100   95  90  85  75  55  50  35  25  20  10   5)
@@ -240,7 +240,7 @@
 		 "Goals"          "Dreams"            "Environment"       "Outside"
 		 "Inside"         "Realities"         "Allies"            "Enemies"
 		 "Evil"           "Good"              "Emotions"          "Opposition"
-                 "War"            "Peace"             "The innocent"      "Love"
+		 "War"            "Peace"             "The innocent"      "Love"
 		 "The spiritual"  "The intellectual"  "New ideas"         "Joy"
 		 "Messages"       "Energy"            "Balance"           "Tension"
 		 "Friendship"     "The physical"      "A project"         "Pleasures"
