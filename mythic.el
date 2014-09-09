@@ -25,7 +25,7 @@
 	 (interactive "p")
 	 (let ((ranks (quote ,rank)))
 	   (apply ,func
-		  (if (= extreme-rank 4)
+		  (if (> extreme-rank 1)
 		      (mapcar 'mythic-ask-grade ranks)
 		    ranks)))))))
 
