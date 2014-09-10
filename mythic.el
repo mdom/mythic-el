@@ -310,6 +310,17 @@
 			       ". New scene setup: ")))))
     (insert (format "\n\nScene setup: %s (Chaos: %d)\n\n"
 		    setup mythic-chaos-level))))
+(defun mythic-get-list (list)
+  (save-excursion
+    (save-restriction
+      (goto-char (point-min))
+      (when (search-forward (concat "List: " list) nil t)
+	(narrow-to-page)
+	(let ((elts))
+	  (while (re-search-forward "^[*]\\s-*\\(.*\\)" nil t)
+	    (push (match-string 1) elts))
+	  elts)))))
+
 
 (provide 'mythic)
 
