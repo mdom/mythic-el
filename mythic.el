@@ -157,18 +157,28 @@
 
 (defun mythic-event-focus ()
   "Returns the focus of a random event."
-  (mythic-threshold (mythic-d100)
-    (7 "Remote event")
-    (28 "NPC action")
-    (35 "Introduce a new NPC")
-    (45 "Move towards a thread")
-    (52 "Move away from a thread")
-    (55 "Close a thread")
-    (67 "PC negative")
-    (75 "PC positive")
-    (83 "Ambiguous event")
-    (92 "NPC negative")
-    (100 "NPC positive")))
+  (let ((focus
+	 (mythic-threshold (mythic-d100)
+	   (7 "Remote event")
+	   (28 '("NPC action" mythic-select-npc))
+	   (35 "Introduce a new NPC")
+	   (45 '("Move towards a thread" mythic-select-thread))
+	   (52 '("Move away from a thread" mythic-select-thread))
+	   (55 '("Close a thread" mythic-select-thread))
+	   (67 "PC negative")
+	   (75 "PC positive")
+	   (83 "Ambiguous event")
+	   (92 '("NPC negative" mythic-select-npc))
+	   (100 '("NPC positive" mythic-select-npc)))))
+    (if (and (listp focus) (eq major-mode 'mythic-mode))
+	(format "%s (%s)" (car focus) (or (funcall (cadr focus)) "unknown"))
+      focus)))
+
+(defun mythic-select-thread ()
+  (mythic-random-element (mythic-get-list "Threads")))
+
+(defun mythic-select-npc ()
+  (mythic-random-element (mythic-get-list "NPCs")))
 
 (defvar mythic-chaos-level 5)
 
