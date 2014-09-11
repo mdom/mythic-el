@@ -362,6 +362,27 @@
   (interactive (list (completing-read "NPC: " (mythic-get-list "NPCs"))))
   (mythic-delete-list-element "NPCs" npc))
 
+(defun mythic-add-list-element (list elt)
+  (save-excursion
+    (save-restriction
+      (goto-char (point-min))
+      (if (search-forward (concat "List: " list) nil t)
+	  (progn
+	    (narrow-to-page)
+	    (while (re-search-forward "^[*]\\s-*\\(.*\\)" nil t)
+	      nil)
+	    (insert "\n* " elt))
+	(goto-char (point-max))
+	(insert "\n" ? "\nList: " list "\n\n* " elt)))))
+
+(defun mythic-add-thread (thread)
+  (interactive "sThread: ")
+  (mythic-add-list-element "Threads" thread))
+
+(defun mythic-add-npc (npc)
+  (interactive "sNPC: ")
+  (mythic-add-list-element "NPCs" npc))
+
 (provide 'mythic)
 
 ;; focusArray[1] = new Array("4/Horror: the game starts with the Chaos Factor set to 4.  Chaos can only increase not decrease.  When random events are generated results of 1 to 3 within the Chaos Factor are altered scenes.  Any higher numbers will be interrupts."  "1/10/Horror - PC"  "11/23/Horror - NPC"  "24/30/Remote Event"  "31/49/NPC action"  "50/52/Introduce an NPC"  "53/55/Move toward a thread"  "56/62/Move away from a thread"  "63/72/PC Negative"  "73/75/PC positive"  "76/82/Ambiguous event"  "83/97/NPC negative"  "98/100/NPC positive");
