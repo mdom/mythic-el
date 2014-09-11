@@ -206,6 +206,9 @@
   (cadr (nth (- 10 mythic-chaos-level) mythic-ranks)))
 
 (defun mythic-complete-rank (prompt type)
+  "Prompt user for a rank.
+PROMPT ist a string to prompt with. TYPE selects which rank type to
+use and can either of the symbols odd or resisted."
   (let ((collection (if (eq type 'odds)
 			(remove nil (mapcar 'cadr mythic-ranks))
 		      (mapcar 'car mythic-ranks))))
