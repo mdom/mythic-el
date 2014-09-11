@@ -343,6 +343,24 @@
 	    (push (match-string 1) elts))
 	  elts)))))
 
+(defun mythic-delete-list-element (list elt)
+  (save-excursion
+    (save-restriction
+      (goto-char (point-min))
+      (when (search-forward (concat "List: " list) nil t)
+	(narrow-to-page)
+	(let ((kill-whole-line t))
+	  (when (re-search-forward (concat "^[*]\\s-*" elt) nil t)
+	    (move-beginning-of-line nil)
+	    (kill-line)))))))
+
+(defun mythic-delete-thread (thread)
+  (interactive (list (completing-read "Thread: " (mythic-get-list "Threads"))))
+  (mythic-delete-list-element "Threads" thread))
+
+(defun mythic-delete-npc (npc)
+  (interactive (list (completing-read "NPC: " (mythic-get-list "NPCs"))))
+  (mythic-delete-list-element "NPCs" npc))
 
 (provide 'mythic)
 
