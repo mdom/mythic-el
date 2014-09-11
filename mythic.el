@@ -23,7 +23,19 @@
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
     (define-key map (kbd "C-c C-d") 'mythic-dice)
     (define-key map (kbd "C-c C-n") 'mythic-next-scene)
+    (define-key map (kbd "C-c C-s n") 'mythic-show-next-scene)
+    (define-key map (kbd "C-c C-s p") 'mythic-show-prev-scene)
     (setq mythic-mode-map map)))
+
+(defun mythic-show-next-scene ()
+  (interactive)
+  (narrow-to-page 1)
+  (goto-char (point-min)))
+
+(defun mythic-show-prev-scene ()
+  (interactive)
+  (narrow-to-page -1)
+  (goto-char (point-min)))
 
 (defun mythic-ask-grade (rank)
   (if (string-match "\\(miniscule\\|superhuman\\)" rank)
