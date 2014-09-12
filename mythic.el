@@ -11,7 +11,7 @@
 
 (unless mythic-mode-map
   (let ((map (make-sparse-keymap))
-	(ranks (remove nil (mapcar 'cadr mythic-ranks))))
+	(ranks (mythic-ranks-odds)))
     (dotimes (i (length ranks))
       (let ((acting (nth i ranks)))
 	(mythic-kbd map (concat "\C-c\C-co" (mythic-number-to-key i)) 'mythic-odds-question acting)
@@ -82,27 +82,36 @@
 )
 
 (defconst mythic-ranks
-  '(("miniscule2")
-    ("miniscule" "impossible")
-    ("weak" "no way")
-    ("low" "very unlikely")
-    ("below-average" "unlikely")
-    ("average" "50/50")
-    ("above-average" "somewhat likely")
-    ("high" "likely")
-    ("exceptional" "very likely")
-    ("incredible" "near sure thing")
-    ("awesome" "a sure thing")
-    ("superhuman" "has to be")
-    ("superhuman2")))
+  '((("miniscule2"    . ?M))
+    (("miniscule"     . ?m) ("impossible"      . ?i))
+    (("weak"          . ?k) ("no way"          . ?w))
+    (("low"           . ?l) ("very unlikely"   . ?v))
+    (("below-average" . ?b) ("unlikely"        . ?b))
+    (("average"       . ?a) ("50/50"           . ?f))
+    (("above-average" . ?o) ("somewhat likely" . ?s))
+    (("high"          . ?h) ("likely"           .?k))
+    (("exceptional"   . ?e) ("very likely"      .?l))
+    (("incredible"    . ?i) ("near sure thing"  .?n))
+    (("awesome"       . ?w) ("a sure thing"     .?a))
+    (("superhuman"    . ?s) ("has to be"        .?h))
+    (("superhuman2"   . ?S))))
+
+(defun mythic-ranks-resisted ()
+  (mapcar 'caar mythic-ranks))
+
+(defun mythic-ranks-odds ()
+  (remove nil (mapcar 'caadr mythic-ranks)))
+
+(defun mythic-ranks-simple ()
+  "Returns the rank table without any additional information like shortcuts etc."
+  (mapcar (lambda (x) (mapcar 'car x )) mythic-ranks))
 
 (defun mythic-rank-translate (rank)
-  (let ((list (find rank mythic-ranks :test 'member)))
+  (let ((list (find rank (mythic-ranks-simple) :test 'member)))
     (car (remove rank list))))
 
-
 (defun mythic-rank-pos (difficulty)
-  (position difficulty mythic-ranks :test 'member))
+  (position difficulty (mythic-ranks-simple) :test 'member))
 
 (defun mythic-extreme-rank-modifier (rank)
   "Returns the odds modifier for a rank below miniscule2 or above superhuman2."
@@ -122,15 +131,15 @@
 
 (defun mythic-chaos-level-rank (mythic-chaos-level)
   "Convert the numeric chaos level to its string representation."
-  (cadr (nth (- 10 mythic-chaos-level) mythic-ranks)))
+  (cadr (nth (- 10 mythic-chaos-level) (mythic-ranks-simple))))
 
 (defun mythic-read-rank (prompt type)
   "Prompt user for a rank.
 PROMPT ist a string to prompt with. TYPE selects which rank type to
 use and can either of the symbols odd or resisted."
   (let ((collection (if (eq type 'odds)
-			(remove nil (mapcar 'cadr mythic-ranks))
-		      (mapcar 'car mythic-ranks))))
+			(mythic-ranks-odds)
+		      (mythic-ranks-resisted))))
     (let ((rank (completing-read prompt collection)))
       (if (or
 	   (member rank collection)
