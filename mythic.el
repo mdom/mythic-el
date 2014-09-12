@@ -100,12 +100,6 @@
   (let ((list (find rank mythic-ranks :test 'member)))
     (car (remove rank list))))
 
-(defmacro mythic-threshold (throw &rest clauses)
-  (declare (indent 1))
-  (let (result)
-    (dolist (clause clauses result)
-      (setq result (cons `((<= ,throw ,(car clause)) ,(cadr clause)) result)))
-    `(cond ,@(nreverse result))))
 
 (defun mythic-rank-pos (difficulty)
   (position difficulty mythic-ranks :test 'member))
@@ -125,6 +119,32 @@
   (if (string-match "\\(miniscule\\|superhuman\\)[0-9]+" rank)
       (concat (match-string 1 rank) "2")
     rank))
+
+(defun mythic-chaos-level-rank (mythic-chaos-level)
+  "Convert the numeric chaos level to its string representation."
+  (cadr (nth (- 10 mythic-chaos-level) mythic-ranks)))
+
+(defun mythic-read-rank (prompt type)
+  "Prompt user for a rank.
+PROMPT ist a string to prompt with. TYPE selects which rank type to
+use and can either of the symbols odd or resisted."
+  (let ((collection (if (eq type 'odds)
+			(remove nil (mapcar 'cadr mythic-ranks))
+		      (mapcar 'car mythic-ranks))))
+    (let ((rank (completing-read prompt collection)))
+      (if (or
+	   (member rank collection)
+	   (and (eq type 'resisted)
+		(string-match "\\(superhuman\\|miniscule\\)[0-9]+" rank)))
+	  rank
+	(error "Unknown rank: %s" rank)))))
+
+(defmacro mythic-threshold (throw &rest clauses)
+  (declare (indent 1))
+  (let (result)
+    (dolist (clause clauses result)
+      (setq result (cons `((<= ,throw ,(car clause)) ,(cadr clause)) result)))
+    `(cond ,@(nreverse result))))
 
 (defun mythic-get-odds (acting difficulty)
   (+ (mythic-extreme-rank-modifier acting)
@@ -200,25 +220,6 @@
     (if event
 	(message "%s -- Event: %s" message event)
       (message message))))
-
-(defun mythic-chaos-level-rank (mythic-chaos-level)
-  "Convert the numeric chaos level to its string representation."
-  (cadr (nth (- 10 mythic-chaos-level) mythic-ranks)))
-
-(defun mythic-read-rank (prompt type)
-  "Prompt user for a rank.
-PROMPT ist a string to prompt with. TYPE selects which rank type to
-use and can either of the symbols odd or resisted."
-  (let ((collection (if (eq type 'odds)
-			(remove nil (mapcar 'cadr mythic-ranks))
-		      (mapcar 'car mythic-ranks))))
-    (let ((rank (completing-read prompt collection)))
-      (if (or
-	   (member rank collection)
-	   (and (eq type 'resisted)
-		(string-match "\\(superhuman\\|miniscule\\)[0-9]+" rank)))
-	  rank
-	(error "Unknown rank: %s" rank)))))
 
 (defun mythic-odds-question (acting)
   (interactive (list (mythic-read-rank "Acting rank: " 'odds)))
