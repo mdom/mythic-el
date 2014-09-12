@@ -37,8 +37,8 @@
   (narrow-to-page -1)
   (goto-char (point-min)))
 
-(defun mythic-ask-grade (rank)
-  (if (string-match "\\(miniscule\\|superhuman\\)" rank)
+(defun mythic-read-grade (rank)
+  (if (string-match "\\(miniscule\\|superhuman\\)2" rank)
       (let ((grade (read-number (format "Grade for %s: " rank))))
 	(cond ((= grade 1) rank)
 	      ((> grade 1) (concat rank (number-to-string grade)))
