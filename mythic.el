@@ -205,7 +205,7 @@
   "Convert the numeric chaos level to its string representation."
   (cadr (nth (- 10 mythic-chaos-level) mythic-ranks)))
 
-(defun mythic-complete-rank (prompt type)
+(defun mythic-read-rank (prompt type)
   "Prompt user for a rank.
 PROMPT ist a string to prompt with. TYPE selects which rank type to
 use and can either of the symbols odd or resisted."
@@ -221,14 +221,14 @@ use and can either of the symbols odd or resisted."
 	(error "Unknown rank: %s" rank)))))
 
 (defun mythic-odds-question (acting)
-  (interactive (list (mythic-complete-rank "Acting rank: " 'odds)))
+  (interactive (list (mythic-read-rank "Acting rank: " 'odds)))
   (mythic-format-answer
    (mythic-ask-question acting (mythic-chaos-level-rank mythic-chaos-level))))
 
 (defun mythic-resisted-question (acting difficulty)
   (interactive (list
-		(mythic-complete-rank "Acting rank: " 'resisted)
-		(mythic-complete-rank "Resisted rank: " 'resisted)))
+		(mythic-read-rank "Acting rank: " 'resisted)
+		(mythic-read-rank "Resisted rank: " 'resisted)))
   (mythic-format-answer
    (mythic-ask-question acting difficulty)))
 
