@@ -10,15 +10,7 @@
   "Keys for mythic mode")
 
 (unless mythic-mode-map
-  (let ((map (make-sparse-keymap))
-	(ranks (mythic-ranks-odds)))
-    (dotimes (i (length ranks))
-      (let ((acting (nth i ranks)))
-	(mythic-kbd map (concat "\C-c\C-co" (mythic-number-to-key i)) 'mythic-odds-question acting)
-	(dotimes (j (length ranks))
-	  (let ((difficulty (mythic-rank-translate (nth j ranks)))
-		(acting (mythic-rank-translate acting)))
-	    (mythic-kbd map (concat "\C-c\C-cr" (mythic-number-to-key i) (mythic-number-to-key j)) 'mythic-resisted-question acting difficulty)))))
+  (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-o") 'mythic-odds-question)
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
     (define-key map (kbd "C-c C-d") 'mythic-dice)
@@ -44,25 +36,6 @@
 	      ((> grade 1) (concat rank (number-to-string grade)))
 	      ((error "Grade of %s must be greater than 0" rank))))
     rank))
-
-(defmacro mythic-kbd (map key func &rest ranks)
-  (let ((rank (mapcar 'eval ranks)))
-    `(define-key ,map
-       ,key
-       (lambda (extreme-rank)
-	 (interactive "p")
-	 (let ((ranks (quote ,rank)))
-	   (apply ,func
-		  (if (> extreme-rank 1)
-		      (mapcar 'mythic-ask-grade ranks)
-		    ranks)))))))
-
-(defun mythic-number-to-key (number)
-  (if (= number 10)
-      "+"
-    (if (= number 9)
-	"0"
-      (number-to-string (1+ number)))))
 
 (defconst mythic-fate-chart
       '(( 50  25   10   5  5   0    0 -20 -20 -40 -40 -55 -65)
