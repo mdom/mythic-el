@@ -118,8 +118,15 @@ use and can either of the symbols odd or resisted."
       (with-output-to-temp-buffer "*Mythic Choice*"
 	(dolist (elt collection)
 	  (princ (format "%c %s\n" (cdr elt) (car elt)))))
-      (let ((rank (car (find (read-char prompt) collection :test (lambda (elt list) (= (cdr list) elt))))))
+      (let ((rank (car (find (mythic-read-char prompt (mapcar 'cdr collection)) collection :test (lambda (elt list) (= (cdr list) elt))))))
 	(mythic-read-grade rank))))))
+
+(defun mythic-read-char (prompt chars)
+  (let ((char))
+    (while (progn
+	     (setq char (read-char prompt))
+	     (not (member char chars))))
+    char))
 
 (defmacro mythic-threshold (throw &rest clauses)
   (declare (indent 1))
