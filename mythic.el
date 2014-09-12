@@ -110,16 +110,16 @@
   "Prompt user for a rank.
 PROMPT ist a string to prompt with. TYPE selects which rank type to
 use and can either of the symbols odd or resisted."
-  (let ((collection (if (eq type 'resisted)
-			(mapcar 'car mythic-ranks)
-		      (remove nil (mapcar 'cadr mythic-ranks)))))
-    (save-window-excursion
-      (let ((temp-buffer-show-hook '(fit-window-to-buffer)))
-	(with-output-to-temp-buffer "*Mythic Choice*"
-	  (dolist (elt collection)
-	    (princ (format "%c %s\n" (cdr elt) (car elt)))))
-	(let ((rank (car (find (read-char prompt) collection :test (lambda (elt list) (= (cdr list) elt))))))
-	  (mythic-read-grade rank))))))
+  (save-window-excursion
+    (let ((collection (if (eq type 'resisted)
+			  (mapcar 'car mythic-ranks)
+			(remove nil (mapcar 'cadr mythic-ranks))))
+	  (temp-buffer-show-hook '(fit-window-to-buffer)))
+      (with-output-to-temp-buffer "*Mythic Choice*"
+	(dolist (elt collection)
+	  (princ (format "%c %s\n" (cdr elt) (car elt)))))
+      (let ((rank (car (find (read-char prompt) collection :test (lambda (elt list) (= (cdr list) elt))))))
+	(mythic-read-grade rank))))))
 
 (defmacro mythic-threshold (throw &rest clauses)
   (declare (indent 1))
