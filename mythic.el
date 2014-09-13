@@ -12,6 +12,7 @@
 (unless mythic-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-o") 'mythic-odds-question)
+    (define-key map (kbd "C-c C-c") 'mythic-odds-question)
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
     (define-key map (kbd "C-c C-d") 'mythic-dice)
     (define-key map (kbd "C-c C-n") 'mythic-next-scene)
