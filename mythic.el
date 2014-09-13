@@ -337,8 +337,17 @@ use and can either of the symbols odd or resisted."
 		       (concat "Interrupt scene: "
 			       (mythic-random-event)
 			       ". New scene setup: ")))))
-    (insert (format "\n\nScene setup: %s (Chaos: %d)\n\n"
-		    setup mythic-chaos-level))))
+    (widen)
+    (goto-char (point-min))
+    (while (re-search-forward "^Scene: " nil t))
+    (beginning-of-line)
+    (when (looking-at "^Scene: ")
+      (search-forward ""))
+    (insert (format "\nScene setup: %s (Chaos: %d)\n\n\n\n"
+		    setup mythic-chaos-level))
+    (goto-char (- (point) 3))
+    (narrow-to-page)))
+
 (defun mythic-get-list (list)
   (save-excursion
     (save-restriction
