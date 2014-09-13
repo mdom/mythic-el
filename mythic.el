@@ -15,11 +15,11 @@
     (define-key map (kbd "C-c C-c") 'mythic-odds-question)
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
     (define-key map (kbd "C-c C-d") 'mythic-dice)
-    (define-key map (kbd "C-c C-n") 'mythic-next-scene)
     (define-key map (kbd "C-c C-t a") 'mythic-add-thread)
     (define-key map (kbd "C-c C-t d") 'mythic-delete-thread)
     (define-key map (kbd "C-c C-p a") 'mythic-add-npc)
     (define-key map (kbd "C-c C-p d") 'mythic-delete-npc)
+    (define-key map (kbd "C-c C-s a") 'mythic-add-scene)
     (define-key map (kbd "C-c C-s n") 'mythic-show-next-scene)
     (define-key map (kbd "C-c C-s p") 'mythic-show-prev-scene)
     (setq mythic-mode-map map)))
@@ -314,7 +314,7 @@ use and can either of the symbols odd or resisted."
     (when (interactive-p)
       (message "Invalid dice %s" dice-spec))))
 
-(defun mythic-next-scene ()
+(defun mythic-add-scene ()
   "Set the next scene by updating the chaos level, prompting for the scene setup and modifiying all lists."
   (interactive)
   (if (y-or-n-p "Increase chaos factor? ")
