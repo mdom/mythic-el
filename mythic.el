@@ -36,7 +36,7 @@
 
 (defun mythic-read-grade (rank)
   (if (string-match "\\(miniscule\\|superhuman\\)2" rank)
-      (let ((grade (read-number (format "Grade for %s: " rank))))
+      (let ((grade (read-number (format "Grade for %s: " rank) 2)))
 	(cond ((= grade 1) rank)
 	      ((> grade 1) (concat rank (number-to-string grade)))
 	      ((error "Grade of %s must be greater than 0" rank))))
