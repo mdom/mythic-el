@@ -333,6 +333,7 @@ use and can either of the symbols odd or resisted."
 (defun mythic-get-list (list)
   (save-excursion
     (save-restriction
+      (widen)
       (goto-char (point-min))
       (when (search-forward (concat "List: " list) nil t)
 	(narrow-to-page)
@@ -344,6 +345,7 @@ use and can either of the symbols odd or resisted."
 (defun mythic-delete-list-element (list elt)
   (save-excursion
     (save-restriction
+      (widen)
       (goto-char (point-min))
       (when (search-forward (concat "List: " list) nil t)
 	(narrow-to-page)
@@ -363,6 +365,7 @@ use and can either of the symbols odd or resisted."
 (defun mythic-add-list-element (list elt)
   (save-excursion
     (save-restriction
+      (widen)
       (goto-char (point-min))
       (if (search-forward (concat "List: " list) nil t)
 	  (progn
