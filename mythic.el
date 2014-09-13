@@ -36,10 +36,11 @@
 
 (defun mythic-read-grade (rank)
   (if (string-match "\\(miniscule\\|superhuman\\)2" rank)
-      (let ((grade (read-number (format "Grade for %s: " rank) 2)))
-	(cond ((= grade 1) rank)
-	      ((> grade 1) (concat rank (number-to-string grade)))
-	      ((error "Grade of %s must be greater than 0" rank))))
+      (let* ((baserank (match-string 1 rank))
+	     (grade (read-number (format "Grade for %s - must be 2 or higher: " baserank) 2)))
+	(if (>= grade 2)
+	    (concat rank (number-to-string grade))
+	  (error "Grade of %s must be 2 or higher" baserank)))
     rank))
 
 (defconst mythic-fate-chart
