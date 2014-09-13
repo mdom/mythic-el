@@ -314,12 +314,20 @@ use and can either of the symbols odd or resisted."
     (when (interactive-p)
       (message "Invalid dice %s" dice-spec))))
 
+(defun mythic-increase-chaos-factor ()
+  (unless (= mythic-chaos-level 10)
+    (incf mythic-chaos-level)))
+
+(defun mythic-decrease-chaos-factor ()
+  (unless (= mythic-chaos-level 1)
+    (decf mythic-chaos-level)))
+
 (defun mythic-add-scene ()
   "Set the next scene by updating the chaos level, prompting for the scene setup and modifiying all lists."
   (interactive)
   (if (y-or-n-p "Increase chaos factor? ")
-      (incf mythic-chaos-level)
-    (decf mythic-chaos-level))
+      (mythic-increase-chaos-factor)
+    (mythic-decrease-chaos-factor))
   (let ((setup (read-string "Scene setup: "))
 	(roll (mythic-dice "d10")))
     (if (<= roll mythic-chaos-level)
