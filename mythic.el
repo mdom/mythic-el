@@ -15,6 +15,7 @@
     (define-key map (kbd "C-c C-c") 'mythic-odds-question)
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
     (define-key map (kbd "C-c C-d") 'mythic-dice)
+    (define-key map (kbd "C-c C-l") 'mythic-display-log)
     (define-key map (kbd "C-c C-t a") 'mythic-add-thread)
     (define-key map (kbd "C-c C-t d") 'mythic-delete-thread)
     (define-key map (kbd "C-c C-p a") 'mythic-add-npc)
@@ -225,6 +226,9 @@ use and can either of the symbols odd or resisted."
       (insert (apply 'format "Odds: %d/%d/%d Throw: %d\n"
 		     (mythic-get odds 'lower 'odds 'upper 'throw))))))
 
+(defun mythic-display-log ()
+  (interactive)
+  (display-buffer (get-buffer-create "*Mythic Log*")))
 
 (defun mythic-odds-question (acting)
   (interactive (list (mythic-read-rank "Acting rank: " 'odds)))
