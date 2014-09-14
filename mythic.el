@@ -218,7 +218,13 @@ use and can either of the symbols odd or resisted."
 	(event (mythic-get odds 'event)))
     (if event
 	(message "%s -- Event: %s" message event)
-      (message message))))
+      (message message))
+    (save-current-buffer
+      (set-buffer (get-buffer-create "*Mythic Log*"))
+      (goto-char (point-max))
+      (insert (apply 'format "Odds: %d/%d/%d Throw: %d\n"
+		     (mythic-get odds 'lower 'odds 'upper 'throw))))))
+
 
 (defun mythic-odds-question (acting)
   (interactive (list (mythic-read-rank "Acting rank: " 'odds)))
