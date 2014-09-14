@@ -175,8 +175,12 @@ use and can either of the symbols odd or resisted."
   (and (<= (/ odds 11) mythic-chaos-level)
        (= (% odds 11) 0)))
 
-(defun mythic-get (key alist)
-  (cadr (assoc key alist)))
+(defun mythic-get (alist &rest keys)
+  (let ((result 
+	 (mapcar (lambda (key) (cadr (assoc key alist))) keys)))
+    (if (= 1 (length keys))
+	(car result)
+      result)))
 
 (defun mythic-d100 ()
   "Returns a random value between 1 and 100."
@@ -210,8 +214,8 @@ use and can either of the symbols odd or resisted."
 (defvar mythic-chaos-level 5)
 
 (defun mythic-format-answer (odds)
-  (let ((message (format "Answer: %s" (mythic-get 'answer odds)))
-	(event (mythic-get 'event odds)))
+  (let ((message (format "Answer: %s" (mythic-get odds 'answer)))
+	(event (mythic-get odds 'event)))
     (if event
 	(message "%s -- Event: %s" message event)
       (message message))))
