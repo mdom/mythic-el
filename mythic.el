@@ -297,9 +297,14 @@ use and can either of the symbols odd or resisted."
    "/"
    (mythic-random-element mythic-event-subjects)))
 
+(defvar mythic-dice-history nil)
+
+(eval-after-load "savehist"
+  '(add-to-list 'savehist-additional-variables 'mythic-dice-history))
+
 (defun mythic-dice (dice-spec)
   "Roll dice according to dice-spec. Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
-  (interactive "sDice: ")
+  (interactive (list (read-from-minibuffer "Dice: " nil nil nil mythic-dice-history)))
   (if (string-match "\\s-*\\([[:digit:]]+\\)*\\s-*d\\([[:digit:]]+\\)\\s-*\\([+-][[:digit:]]+\\)*" dice-spec)
       (let ((number (string-to-int (or (match-string 1 dice-spec) "1")))
 	    (sides (string-to-int (match-string 2 dice-spec)))
