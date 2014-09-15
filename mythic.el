@@ -222,15 +222,18 @@ use and can either of the symbols odd or resisted."
     (if event
 	(message "%s -- Event: %s" message event)
       (message message))
-    (save-current-buffer
-      (set-buffer (get-buffer-create "*Mythic Log*"))
-      (goto-char (point-max))
-      (insert (apply 'format "Odds: %d/%d/%d Throw: %d\n"
-		     (mythic-get odds 'lower 'odds 'upper 'throw))))))
+    (with-current-buffer (get-buffer-create "*Mythic Log*")
+      (view-mode)
+      (let (buffer-read-only)
+	(insert (apply 'format "Odds: %d/%d/%d Throw: %d\n"
+		       (mythic-get odds 'lower 'odds 'upper 'throw)))))))
 
 (defun mythic-display-log ()
   (interactive)
-  (display-buffer (get-buffer-create "*Mythic Log*")))
+  (let ((buffer (get-buffer-create "*Mythic Log*")))
+    (with-current-buffer buffer
+      (view-mode)
+      (display-buffer buffer))))
 
 (defun mythic-odds-question (acting)
   (interactive (list (mythic-read-rank "Acting rank: " 'odds)))
