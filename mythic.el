@@ -1,6 +1,33 @@
-(require 'cl)
+;;; mythic.el --- major mode to play the mythic role playing game
 
-;; seed random
+;; Author: Mario Domgörgen <mario@domgoergen.com>
+;; Created: Fri Aug 15 16:14:39 2014 +0200
+;; Keywords: mythic rpg dice
+
+;; Copyright (2014) Mario Domgörgen
+
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 2 of
+;; the License, or (at your option) any later version.
+
+;; This program is distributed in the hope that it will be
+;; useful, but WITHOUT ANY WARRANTY; without even the implied
+;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+;; PURPOSE.  See the GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public
+;; License along with this program; if not, write to the Free
+;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301 USA
+
+
+;;; Commentary:
+;; 
+
+;;; Code:
+
+;;; seed random
 (random 't)
 
 (define-derived-mode mythic-mode text-mode "Mythic" "Mode to play mythic rpg"
