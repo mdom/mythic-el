@@ -18,8 +18,10 @@
     (define-key map (kbd "C-c C-l") 'mythic-display-log)
     (define-key map (kbd "C-c C-t a") 'mythic-add-thread)
     (define-key map (kbd "C-c C-t d") 'mythic-delete-thread)
+    (define-key map (kbd "C-c C-t e") 'mythic-edit-threads)
     (define-key map (kbd "C-c C-p a") 'mythic-add-npc)
     (define-key map (kbd "C-c C-p d") 'mythic-delete-npc)
+    (define-key map (kbd "C-c C-p e") 'mythic-edit-npcs)
     (define-key map (kbd "C-c C-s a") 'mythic-add-scene)
     (define-key map (kbd "C-c C-s n") 'mythic-show-next-scene)
     (define-key map (kbd "C-c C-s p") 'mythic-show-prev-scene)
@@ -445,6 +447,15 @@ use and can either of the symbols odd or resisted."
       (when (search-forward (concat "List: " list) nil t)
 	(narrow-to-page)
 	(pop-to-buffer buffer)))))
+
+(defun mythic-edit-threads ()
+  (interactive)
+  (mythic-edit-list "Threads"))
+
+(defun mythic-edit-npcs ()
+  (interactive)
+  (mythic-edit-list "NPCs"))
+
 
 (provide 'mythic)
 
