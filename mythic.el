@@ -51,9 +51,9 @@
     (define-key map (kbd "C-c C-p a") 'mythic-add-npc)
     (define-key map (kbd "C-c C-p d") 'mythic-delete-npc)
     (define-key map (kbd "C-c C-p e") 'mythic-edit-npcs)
-    (define-key map (kbd "C-c C-s a") 'mythic-add-scene)
-    (define-key map (kbd "C-c C-s n") 'mythic-show-next-scene)
-    (define-key map (kbd "C-c C-s p") 'mythic-show-prev-scene)
+    (define-key map (kbd "C-c C-a") 'mythic-add-scene)
+    (define-key map (kbd "M-n") 'mythic-show-next-scene)
+    (define-key map (kbd "M-p") 'mythic-show-prev-scene)
     (setq mythic-mode-map map)))
 
 (defun mythic-show-next-scene ()
