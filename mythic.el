@@ -435,6 +435,17 @@ use and can either of the symbols odd or resisted."
   (narrow-to-page)
   (mythic-mode))
 
+(defun mythic-edit-list (list)
+  (interactive "sList: ")
+  (let* ((buffer-name (format "*%s - %s*" (buffer-name) list))
+	 (buffer (or (get-buffer buffer-name) (make-indirect-buffer (current-buffer) buffer-name t))))
+    (with-current-buffer buffer
+      (widen)
+      (goto-char (point-min))
+      (when (search-forward (concat "List: " list) nil t)
+	(narrow-to-page)
+	(pop-to-buffer buffer)))))
+
 (provide 'mythic)
 
 ;; focusArray[1] = new Array("4/Horror: the game starts with the Chaos Factor set to 4.  Chaos can only increase not decrease.  When random events are generated results of 1 to 3 within the Chaos Factor are altered scenes.  Any higher numbers will be interrupts."  "1/10/Horror - PC"  "11/23/Horror - NPC"  "24/30/Remote Event"  "31/49/NPC action"  "50/52/Introduce an NPC"  "53/55/Move toward a thread"  "56/62/Move away from a thread"  "63/72/PC Negative"  "73/75/PC positive"  "76/82/Ambiguous event"  "83/97/NPC negative"  "98/100/NPC positive");
