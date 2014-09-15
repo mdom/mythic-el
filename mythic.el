@@ -116,7 +116,7 @@
   (remove nil (mapcar 'caadr mythic-ranks)))
 
 (defun mythic-ranks-simple ()
-  "Returns the rank table without any additional information like shortcuts etc."
+  "Return the rank table without any additional information like shortcuts etc."
   (mapcar (lambda (x) (mapcar 'car x )) mythic-ranks))
 
 (defun mythic-rank-translate (rank)
@@ -127,7 +127,7 @@
   (position difficulty (mythic-ranks-simple) :test 'member))
 
 (defun mythic-extreme-rank-modifier (rank)
-  "Returns the odds modifier for a rank below miniscule2 or above superhuman2."
+  "Return the odds modifier for a RANK below miniscule2 or above superhuman2."
   (if (string-match "\\(miniscule\\|superhuman\\)\\([0-9]+\\)" rank)
       (let ((rank (match-string 1 rank))
 	    (grade (- (string-to-number (match-string 2 rank)) 2)))
@@ -137,7 +137,7 @@
     0))
 
 (defun mythic-truncate-rank (rank)
-  "Truncates a rank below miniscule2 to miniscule2 and ranks above superhuman2 to superhuman2. Return rank unchanged if its a member of the rank list."
+  "Truncates a RANK below miniscule2 to miniscule2 and ranks above superhuman2 to superhuman2. Return rank unchanged if its a member of the rank list."
   (if (string-match "\\(miniscule\\|superhuman\\)[0-9]+" rank)
       (concat (match-string 1 rank) "2")
     rank))
@@ -148,7 +148,7 @@
 
 (defun mythic-read-rank (prompt type)
   "Prompt user for a rank.
-PROMPT ist a string to prompt with. TYPE selects which rank type to
+PROMPT ist a string to prompt with.  TYPE selects which rank type to
 use and can either of the symbols odd or resisted."
   (save-window-excursion
     (let ((collection (if (eq type 'resisted)
@@ -210,18 +210,18 @@ use and can either of the symbols odd or resisted."
        (= (% odds 11) 0)))
 
 (defun mythic-get (alist &rest keys)
-  (let ((result 
+  (let ((result
 	 (mapcar (lambda (key) (cadr (assoc key alist))) keys)))
     (if (= 1 (length keys))
 	(car result)
       result)))
 
 (defun mythic-d100 ()
-  "Returns a random value between 1 and 100."
+  "Return a random value between 1 and 100."
   (1+ (random 99)))
 
 (defun mythic-event-focus ()
-  "Returns the focus of a random event."
+  "Return the focus of a random event."
   (let ((focus
 	 (mythic-threshold (mythic-d100)
 	   (7 "Remote event")
@@ -356,7 +356,7 @@ use and can either of the symbols odd or resisted."
   '(add-to-list 'savehist-additional-variables 'mythic-dice-history))
 
 (defun mythic-dice (dice-spec)
-  "Roll dice according to dice-spec. Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
+  "Roll dice according to DICE-SPEC.  Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
   (interactive (list (read-from-minibuffer "Dice: " nil nil nil mythic-dice-history)))
   (if (string-match "\\s-*\\([[:digit:]]+\\)*\\s-*d\\([[:digit:]]+\\)\\s-*\\([+-][[:digit:]]+\\)*" dice-spec)
       (let ((number (string-to-int (or (match-string 1 dice-spec) "1")))
@@ -431,7 +431,7 @@ use and can either of the symbols odd or resisted."
 	    (kill-line)))))))
 
 (defun mythic-delete-thread (thread)
-  "Close a open thread."
+  "Close a open THREAD."
   (interactive (list (completing-read "Thread: " (mythic-get-list "Threads"))))
   (mythic-delete-list-element "Threads" thread))
 
@@ -455,7 +455,7 @@ use and can either of the symbols odd or resisted."
 	(insert "\n" ? "\nList: " list "\n\n* " elt)))))
 
 (defun mythic-add-thread (thread)
-  "Add a new thread."
+  "Add a new THREAD."
   (interactive "sThread: ")
   (mythic-add-list-element "Threads" thread))
 
@@ -465,7 +465,7 @@ use and can either of the symbols odd or resisted."
   (mythic-add-list-element "NPCs" npc))
 
 (defun mythic (file)
-  "Visit a mythic file or create a new one if none already exists."
+  "Visit a mythic FILE or create a new one if none already exists."
   (interactive "FFind adventure file: ")
   (find-file file)
   (if (not (file-exists-p (buffer-file-name)))
