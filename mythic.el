@@ -36,7 +36,7 @@
   (make-local-variable 'mythic-chaos-level))
 
 (defvar mythic-mode-map nil
-  "Keys for mythic mode")
+  "Keys for mythic mode.")
 
 (unless mythic-mode-map
   (let ((map (make-sparse-keymap)))
@@ -57,11 +57,13 @@
     (setq mythic-mode-map map)))
 
 (defun mythic-show-next-scene ()
+  "Display next scene."
   (interactive)
   (narrow-to-page 1)
   (goto-char (point-min)))
 
 (defun mythic-show-prev-scene ()
+  "Display previous scene."
   (interactive)
   (narrow-to-page -1)
   (goto-char (point-min)))
@@ -258,6 +260,7 @@ use and can either of the symbols odd or resisted."
 		       (mythic-get odds 'lower 'odds 'upper 'throw)))))))
 
 (defun mythic-display-log ()
+  "Display question log in other window."
   (interactive)
   (let ((buffer (get-buffer-create "*Mythic Log*")))
     (with-current-buffer buffer
@@ -265,11 +268,13 @@ use and can either of the symbols odd or resisted."
       (display-buffer buffer))))
 
 (defun mythic-odds-question (acting)
+  "Ask a odds question against the current chaos level on the fate chart."
   (interactive (list (mythic-read-rank "Acting rank: " 'odds)))
   (mythic-format-answer
    (mythic-ask-question acting (mythic-chaos-level-rank mythic-chaos-level))))
 
 (defun mythic-resisted-question (acting difficulty)
+  "Ask a resisted question on the fate chart."
   (interactive (list
 		(mythic-read-rank "Acting rank: " 'resisted)
 		(mythic-read-rank "Resisted rank: " 'resisted)))
@@ -426,10 +431,12 @@ use and can either of the symbols odd or resisted."
 	    (kill-line)))))))
 
 (defun mythic-delete-thread (thread)
+  "Close a open thread."
   (interactive (list (completing-read "Thread: " (mythic-get-list "Threads"))))
   (mythic-delete-list-element "Threads" thread))
 
 (defun mythic-delete-npc (npc)
+  "Remove a NPC from the NPC list."
   (interactive (list (completing-read "NPC: " (mythic-get-list "NPCs"))))
   (mythic-delete-list-element "NPCs" npc))
 
@@ -448,14 +455,17 @@ use and can either of the symbols odd or resisted."
 	(insert "\n" ? "\nList: " list "\n\n* " elt)))))
 
 (defun mythic-add-thread (thread)
+  "Add a new thread."
   (interactive "sThread: ")
   (mythic-add-list-element "Threads" thread))
 
 (defun mythic-add-npc (npc)
+  "Add a new NPC."
   (interactive "sNPC: ")
   (mythic-add-list-element "NPCs" npc))
 
 (defun mythic (file)
+  "Visit a mythic file or create a new one if none already exists."
   (interactive "FFind adventure file: ")
   (find-file file)
   (if (not (file-exists-p (buffer-file-name)))
@@ -481,10 +491,12 @@ use and can either of the symbols odd or resisted."
 	(pop-to-buffer buffer)))))
 
 (defun mythic-edit-threads ()
+  "Edit thread list in other window."
   (interactive)
   (mythic-edit-list "Threads"))
 
 (defun mythic-edit-npcs ()
+  "Edit npc list in other window."
   (interactive)
   (mythic-edit-list "NPCs"))
 
