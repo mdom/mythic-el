@@ -480,7 +480,6 @@ use and can either of the symbols odd or resisted."
   (mythic-mode))
 
 (defun mythic-edit-list (list)
-  (interactive "sList: ")
   (let* ((buffer-name (format "*%s - %s*" (buffer-name) list))
 	 (buffer (or (get-buffer buffer-name) (make-indirect-buffer (current-buffer) buffer-name t))))
     (with-current-buffer buffer
