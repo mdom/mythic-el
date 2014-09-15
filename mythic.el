@@ -27,6 +27,8 @@
 
 ;;; Code:
 
+(eval-when-compile (require 'cl))
+
 ;;; seed random
 (random 't)
 
