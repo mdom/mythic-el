@@ -59,14 +59,25 @@
 (defun mythic-show-next-scene ()
   "Display next scene."
   (interactive)
-  (narrow-to-page 1)
-  (goto-char (point-min)))
+  (mythic-show-scene (lambda () (re-search-forward "\nScene: " nil t))))
 
 (defun mythic-show-prev-scene ()
   "Display previous scene."
   (interactive)
-  (narrow-to-page -1)
-  (goto-char (point-min)))
+  (mythic-show-scene (lambda ()  (re-search-backward "\\(\n\\|\\`\\)Scene: " nil t))))
+
+(defun mythic-show-scene (finder)
+  "Display scene found by FINDER.
+FINDER is a function that moves point to the beginning of a scene."
+  (let ((opoint (point)))
+    (goto-char (point-min))
+    (widen)
+    (if (funcall finder)
+	(progn
+	  (narrow-to-page)
+	  (goto-char (point-min)))
+      (narrow-to-page)
+      (goto-char opoint))))
 
 (defun mythic-read-grade (rank)
   (if (string-match "\\(miniscule\\|superhuman\\)2" rank)
