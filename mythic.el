@@ -80,6 +80,7 @@ FINDER is a function that moves point to the beginning of a scene."
       (goto-char opoint))))
 
 (defun mythic-read-grade (rank)
+  "Read a number from the minibuffer to determine "
   (if (string-match "\\(miniscule\\|superhuman\\)2" rank)
       (let* ((baserank (match-string 1 rank))
 	     (grade (read-number (format "Grade for %s - must be 2 or higher: " baserank) 2)))
@@ -121,9 +122,11 @@ FINDER is a function that moves point to the beginning of a scene."
     (("superhuman2"   . ?S))))
 
 (defun mythic-ranks-resisted ()
+  "Return list of rank names for resisted questions."
   (mapcar 'caar mythic-ranks))
 
 (defun mythic-ranks-odds ()
+  "Return list of rank names for odds questions."
   (remove nil (mapcar 'caadr mythic-ranks)))
 
 (defun mythic-ranks-simple ()
@@ -131,10 +134,12 @@ FINDER is a function that moves point to the beginning of a scene."
   (mapcar (lambda (x) (mapcar 'car x )) mythic-ranks))
 
 (defun mythic-rank-translate (rank)
+  "Translate between RANK name for resisted and odds questions."
   (let ((list (find rank (mythic-ranks-simple) :test 'member)))
     (car (remove rank list))))
 
 (defun mythic-rank-pos (difficulty)
+  "Return DIFFICULTY as position in rank table."
   (position difficulty (mythic-ranks-simple) :test 'member))
 
 (defun mythic-extreme-rank-modifier (rank)
@@ -173,6 +178,8 @@ use and can either of the symbols odd or resisted."
 	(mythic-read-grade rank))))))
 
 (defun mythic-read-char (prompt chars)
+  "Read character from minibuffer, prompting with string PROMPT.
+CHARS is a list of possible characters."
   (let ((char))
     (while (progn
 	     (setq char (read-char prompt))
