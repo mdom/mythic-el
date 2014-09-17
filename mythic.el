@@ -175,7 +175,7 @@ use and can either of the symbols odd or resisted."
 	(dolist (elt collection)
 	  (princ (format "%c %s\n" (cdr elt) (car elt)))))
       (let ((rank (car (find (mythic-read-char prompt (mapcar 'cdr collection)) collection :test (lambda (elt list) (= (cdr list) elt))))))
-	(mythic-read-grade rank))))))
+	(mythic-read-grade rank)))))
 
 (defun mythic-read-char (prompt chars)
   "Read character from minibuffer, prompting with string PROMPT.
