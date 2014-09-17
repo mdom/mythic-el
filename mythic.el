@@ -273,6 +273,7 @@ CHARS is a list of possible characters."
     (with-current-buffer (get-buffer-create "*Mythic Log*")
       (view-mode)
       (let (buffer-read-only)
+	(goto-char (point-max))
 	(insert (apply 'format "Odds: %d/%d/%d Throw: %d\n"
 		       (mythic-get odds 'lower 'odds 'upper 'throw)))))))
 
