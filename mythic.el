@@ -219,10 +219,15 @@ CHARS is a list of possible characters."
       (event ,(mythic-get-event throw)))))
 
 (defun mythic-get-event (throw)
+  "Return a random event if THROW meets the conditions.
+See mythic-event-happend-p for an explanation when this happens."
   (when (mythic-event-happend-p throw)
       (mythic-random-event)))
 
 (defun mythic-event-happend-p (throw)
+  "Return true if THROW leads to an random event.
+This happens if THROW consists of the same digit twice and this digit
+is equal or lower than the chaos factor."
   (and (<= (/ throw 11) mythic-chaos-level)
        (= (% throw 11) 0)))
 
@@ -257,9 +262,11 @@ CHARS is a list of possible characters."
       focus)))
 
 (defun mythic-select-thread ()
+  "Return a random thread."
   (mythic-random-element (mythic-get-list "Threads")))
 
 (defun mythic-select-npc ()
+  "Return a random npc."
   (mythic-random-element (mythic-get-list "NPCs")))
 
 (defvar mythic-chaos-level 5)
@@ -374,7 +381,8 @@ CHARS is a list of possible characters."
   '(add-to-list 'savehist-additional-variables 'mythic-dice-history))
 
 (defun mythic-dice (dice-spec)
-  "Roll dice according to DICE-SPEC.  Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
+  "Roll dice according to DICE-SPEC.
+Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
   (interactive (list (read-from-minibuffer "Dice: " nil nil nil mythic-dice-history)))
   (if (string-match "\\s-*\\([[:digit:]]+\\)*\\s-*d\\([[:digit:]]+\\)\\s-*\\([+-][[:digit:]]+\\)*" dice-spec)
       (let ((number (string-to-int (or (match-string 1 dice-spec) "1")))
