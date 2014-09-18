@@ -218,13 +218,13 @@ CHARS is a list of possible characters."
       (upper  ,(if (>= upper 100) 0 upper))
       (event ,(mythic-get-event throw)))))
 
-(defun mythic-get-event (answer)
-  (when (mythic-event-happend-p answer)
+(defun mythic-get-event (throw)
+  (when (mythic-event-happend-p throw)
       (mythic-random-event)))
 
-(defun mythic-event-happend-p (odds)
-  (and (<= (/ odds 11) mythic-chaos-level)
-       (= (% odds 11) 0)))
+(defun mythic-event-happend-p (throw)
+  (and (<= (/ throw 11) mythic-chaos-level)
+       (= (% throw 11) 0)))
 
 (defun mythic-get (alist &rest keys)
   (let ((result
