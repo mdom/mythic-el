@@ -383,7 +383,7 @@ is equal or lower than the chaos factor."
 (defun mythic-dice (dice-spec)
   "Roll dice according to DICE-SPEC.
 Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
-  (interactive (list (read-from-minibuffer "Dice: " nil nil nil mythic-dice-history)))
+  (interactive (list (read-from-minibuffer "Dice: " nil nil nil 'mythic-dice-history)))
   (if (string-match "\\s-*\\([[:digit:]]+\\)*\\s-*d\\([[:digit:]]+\\)?\\s-*\\([+-][[:digit:]]+\\)*" dice-spec)
       (let ((number (string-to-int (or (match-string 1 dice-spec) "1")))
 	    (sides (string-to-int (or (match-string 2 dice-spec) "6")))
