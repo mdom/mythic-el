@@ -271,9 +271,9 @@ is equal or lower than the chaos factor."
 
 (defvar mythic-chaos-level 5)
 
-(defun mythic-format-answer (odds)
-  (let ((message (format "Answer: %s" (mythic-get odds 'answer)))
-	(event (mythic-get odds 'event)))
+(defun mythic-format-answer (answer)
+  (let ((message (format "Answer: %s" (mythic-get answer 'answer)))
+	(event (mythic-get answer 'event)))
     (if event
 	(message "%s -- Event: %s" message event)
       (message message))
@@ -282,7 +282,7 @@ is equal or lower than the chaos factor."
       (let (buffer-read-only)
 	(goto-char (point-max))
 	(insert (apply 'format "Odds: %d/%d/%d Throw: %d\n"
-		       (mythic-get odds 'lower 'odds 'upper 'throw)))))))
+		       (mythic-get answer 'lower 'odds 'upper 'throw)))))))
 
 (defun mythic-display-log ()
   "Display question log in other window."
