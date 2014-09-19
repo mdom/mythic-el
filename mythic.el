@@ -162,9 +162,9 @@ returned.  All other RANKs are returned unchanged."
       (concat (match-string 1 rank) "2")
     rank))
 
-(defun mythic-chaos-level-rank (mythic-chaos-level)
-  "Convert the numeric chaos level to its string representation."
-  (cadr (nth (- 10 mythic-chaos-level) (mythic-ranks-simple))))
+(defun mythic-chaos-level-rank (level)
+  "Convert the numeric chaos LEVEL to its string representation."
+  (cadr (nth (- 10 level) (mythic-ranks-simple))))
 
 (defun mythic-read-rank (prompt type)
   "Prompt user for a rank.
