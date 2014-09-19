@@ -80,7 +80,11 @@ FINDER is a function that moves point to the beginning of a scene."
       (goto-char opoint))))
 
 (defun mythic-read-grade (rank)
-  "Read a number from the minibuffer to determine "
+  "Read a number from the minibuffer to specify the grade of an extreme RANK.
+If RANK is the string miniscule2 or superhuman2 query the user for a
+grade.  The baserank is then added to the entered grade.  For example,
+if RANK is miniscule2 and the users enters 4, miniscule4 is
+returned.  All other RANKs are returned unchanged."
   (if (string-match "\\(miniscule\\|superhuman\\)2" rank)
       (let* ((baserank (match-string 1 rank))
 	     (grade (read-number (format "Grade for %s - must be 2 or higher: " baserank) 2)))
@@ -232,6 +236,9 @@ is equal or lower than the chaos factor."
        (= (% throw 11) 0)))
 
 (defun mythic-get (alist &rest keys)
+  "Return the the values of an alist specified by key.
+If just one key is specified, return the value. For multiple keys,
+return the the values as list."
   (let ((result
 	 (mapcar (lambda (key) (cadr (assoc key alist))) keys)))
     (if (= 1 (length keys))
@@ -269,9 +276,13 @@ is equal or lower than the chaos factor."
   "Return a random npc."
   (mythic-random-element (mythic-get-list "NPCs")))
 
-(defvar mythic-chaos-level 5)
+(defvar mythic-chaos-level 5
+  "The chaos level associated with the buffer.
+All odds questions are checked against this value.")
 
 (defun mythic-format-answer (answer)
+  "Display a short form of ANSWER in the minibuffer.
+Also appends a record to the buffer *Mythic Log*".
   (let ((message (format "Answer: %s" (mythic-get answer 'answer)))
 	(event (mythic-get answer 'event)))
     (if event
@@ -293,13 +304,13 @@ is equal or lower than the chaos factor."
       (display-buffer buffer))))
 
 (defun mythic-odds-question (acting)
-  "Ask a odds question against the current chaos level on the fate chart."
+  "Ask a odds question by crossreferencing ACTING against the current chaos level on the fate chart."
   (interactive (list (mythic-read-rank "Acting rank: " 'odds)))
   (mythic-format-answer
    (mythic-ask-question acting (mythic-chaos-level-rank mythic-chaos-level))))
 
 (defun mythic-resisted-question (acting difficulty)
-  "Ask a resisted question on the fate chart."
+  "Ask a resisted questiont by crossreferencing ACTING and DIFFICULTY on the fate chart."
   (interactive (list
 		(mythic-read-rank "Acting rank: " 'resisted)
 		(mythic-read-rank "Resisted rank: " 'resisted)))
@@ -365,9 +376,11 @@ is equal or lower than the chaos factor."
   "List of subjects for random events.")
 
 (defun mythic-random-element (list)
+  "Return a random element of LIST."
   (nth (random (1- (length list))) list))
 
 (defun mythic-random-event ()
+  "Return a random event by combining a focus with an action and a subject."
   (concat
    (mythic-event-focus)
    " - "
@@ -375,7 +388,8 @@ is equal or lower than the chaos factor."
    "/"
    (mythic-random-element mythic-event-subjects)))
 
-(defvar mythic-dice-history nil)
+(defvar mythic-dice-history nil
+  "History list for mythic-dice.")
 
 (eval-after-load "savehist"
   '(add-to-list 'savehist-additional-variables 'mythic-dice-history))
@@ -399,10 +413,12 @@ Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
       (message "Invalid dice %s" dice-spec))))
 
 (defun mythic-increase-chaos-factor ()
+  "Increase mythic-chaos-level by one to an upper limit of ten."
   (unless (= mythic-chaos-level 10)
     (incf mythic-chaos-level)))
 
 (defun mythic-decrease-chaos-factor ()
+  "Decrease mythic-chaos-level by one to a lower limit of one."
   (unless (= mythic-chaos-level 1)
     (decf mythic-chaos-level)))
 
@@ -433,6 +449,10 @@ Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
     (narrow-to-page)))
 
 (defun mythic-get-list (list)
+  "Return element of LIST.
+LISTS must be on its own page and start with the string List:
+LIST. Elements are specified by a line starting with wildcard
+characters."
   (save-excursion
     (save-restriction
       (widen)
@@ -445,6 +465,8 @@ Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
 	  elts)))))
 
 (defun mythic-delete-list-element (list elt)
+  "Delete list element specified by LIST and ELT.
+See mythic-get-list for an description of lists."
   (save-excursion
     (save-restriction
       (widen)
@@ -467,6 +489,8 @@ Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
   (mythic-delete-list-element "NPCs" npc))
 
 (defun mythic-add-list-element (list elt)
+  "Add list element specified by LIST and ELT.
+See mythic-get-list for an description of lists."
   (save-excursion
     (save-restriction
       (widen)
@@ -506,6 +530,8 @@ Possible values are for example for dice-spec are d20, 4d20 or 2d20+4."
   (mythic-mode))
 
 (defun mythic-edit-list (list)
+  "Open list in a new buffer and select it.
+See mythic-get-list for an description of lists."
   (let* ((buffer-name (format "*%s - %s*" (buffer-name) list))
 	 (buffer (or (get-buffer buffer-name) (make-indirect-buffer (current-buffer) buffer-name t))))
     (with-current-buffer buffer
