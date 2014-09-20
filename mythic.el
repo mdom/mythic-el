@@ -40,6 +40,9 @@
 
 (unless mythic-mode-map
   (let ((map (make-sparse-keymap)))
+    (let (i)
+      (dotimes (i 10)
+	(define-key map (concat "\C-c" (number-to-string i)) 'mythic-call-register)))
     (define-key map (kbd "C-c C-o") 'mythic-odds-question)
     (define-key map (kbd "C-c C-c") 'mythic-odds-question)
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
@@ -303,9 +306,31 @@ Also appends a record to the buffer *Mythic Log*".
       (view-mode)
       (display-buffer buffer))))
 
+(defvar mythic-register (make-list 10 'nil))
+
+(defun mythic-set-register (&rest args)
+  (let ((register (mythic-numkey-to-pos (+ 48 (prefix-numeric-value last-prefix-arg)))))
+    (if (and register (>= register 0) (< register 10))
+	(setf (nth register mythic-register) args))))
+
+(defun mythic-numkey-to-pos (numkey)
+  (cond ((and (> numkey 48) (< numkey 58))
+	 (- numkey 49))
+	((= numkey 48)
+	 9)
+	((error "Registers must be between 0 and 9."))))
+
+(defun mythic-call-register ()
+  (interactive)
+  (let ((list (nth (mythic-numkey-to-pos last-input-char) mythic-register)))
+    (if (and (listp list) (not (null list)))
+	(apply (car list) (cdr list))
+      (error "Register is empty."))))
+
 (defun mythic-odds-question (acting)
   "Ask a odds question by crossreferencing ACTING against the current chaos level on the fate chart."
   (interactive (list (mythic-read-rank "Acting rank: " 'odds)))
+  (mythic-set-register 'mythic-odds-question acting)
   (mythic-format-answer
    (mythic-ask-question acting (mythic-chaos-level-rank mythic-chaos-level))))
 
@@ -314,6 +339,7 @@ Also appends a record to the buffer *Mythic Log*".
   (interactive (list
 		(mythic-read-rank "Acting rank: " 'resisted)
 		(mythic-read-rank "Resisted rank: " 'resisted)))
+  (mythic-set-register 'mythic-resisted-question acting difficulty)
   (mythic-format-answer
    (mythic-ask-question acting difficulty)))
 
