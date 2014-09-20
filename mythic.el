@@ -285,7 +285,7 @@ All odds questions are checked against this value.")
 
 (defun mythic-format-answer (answer)
   "Display a short form of ANSWER in the minibuffer.
-Also appends a record to the buffer *Mythic Log*".
+Also appends a record to the buffer *Mythic Log*."
   (let ((message (format "Answer: %s" (mythic-get answer 'answer)))
 	(event (mythic-get answer 'event)))
     (if event
