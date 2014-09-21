@@ -46,6 +46,7 @@
     (define-key map (kbd "C-c C-o") 'mythic-odds-question)
     (define-key map (kbd "C-c C-c") 'mythic-odds-question)
     (define-key map (kbd "C-c C-r") 'mythic-resisted-question)
+    (define-key map (kbd "C-c C-g") 'mythic-display-register)
     (define-key map (kbd "C-c C-d") 'mythic-dice)
     (define-key map (kbd "C-c C-l") 'mythic-display-log)
     (define-key map (kbd "C-c C-t a") 'mythic-add-thread)
@@ -319,6 +320,22 @@ Also appends a record to the buffer *Mythic Log*."
 	((= numkey 48)
 	 9)
 	((error "Registers must be between 0 and 9."))))
+
+(defun mythic-pos-to-register (pos)
+  (if (= pos 9)
+      0
+    (1+ pos)))
+
+(defun mythic-display-register ()
+  (interactive)
+  (let ((temp-buffer-show-hook '(fit-window-to-buffer)))
+    (with-output-to-temp-buffer "*Mythic Register*"
+      (dotimes (i (length mythic-register))
+	(let ((register (mythic-pos-to-register i))
+	      (element (nth i mythic-register)))
+	  (if (null element)
+	      (princ (format "%d. unused register\n" register))
+	  (princ (format "%d. %S\n" register element))))))))
 
 (defun mythic-call-register ()
   (interactive)
