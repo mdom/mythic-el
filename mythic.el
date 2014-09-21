@@ -309,8 +309,8 @@ Also appends a record to the buffer *Mythic Log*."
 
 (defvar mythic-register (make-list 10 'nil))
 
-(defun mythic-set-register (&rest args)
-  (let ((register (mythic-numkey-to-pos (+ 48 (prefix-numeric-value last-prefix-arg)))))
+(defun mythic-set-register (prefix &rest args)
+  (let ((register (mythic-numkey-to-pos (+ 48 (prefix-numeric-value prefix)))))
     (if (and register (>= register 0) (< register 10))
 	(setf (nth register mythic-register) args))))
 
@@ -347,7 +347,7 @@ Also appends a record to the buffer *Mythic Log*."
 (defun mythic-odds-question (acting)
   "Ask a odds question by crossreferencing ACTING against the current chaos level on the fate chart."
   (interactive (list (mythic-read-rank "Acting rank: " 'odds)))
-  (mythic-set-register 'mythic-odds-question acting)
+  (mythic-set-register current-prefix-arg 'mythic-odds-question acting)
   (mythic-format-answer
    (mythic-ask-question acting (mythic-chaos-level-rank mythic-chaos-level))))
 
@@ -356,7 +356,7 @@ Also appends a record to the buffer *Mythic Log*."
   (interactive (list
 		(mythic-read-rank "Acting rank: " 'resisted)
 		(mythic-read-rank "Resisted rank: " 'resisted)))
-  (mythic-set-register 'mythic-resisted-question acting difficulty)
+  (mythic-set-register current-prefix-arg 'mythic-resisted-question acting difficulty)
   (mythic-format-answer
    (mythic-ask-question acting difficulty)))
 
