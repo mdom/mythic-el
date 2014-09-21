@@ -93,7 +93,7 @@ returned.  All other RANKs are returned unchanged."
       (let* ((baserank (match-string 1 rank))
 	     (grade (read-number (format "Grade for %s - must be 2 or higher: " baserank) 2)))
 	(if (>= grade 2)
-	    (concat rank (number-to-string grade))
+	    (concat baserank (number-to-string grade))
 	  (error "Grade of %s must be 2 or higher" baserank)))
     rank))
 
