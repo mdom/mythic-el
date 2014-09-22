@@ -202,6 +202,7 @@ CHARS is a list of possible characters."
     `(cond ,@(nreverse result))))
 
 (defun mythic-get-odds (acting difficulty)
+  "Return the probabilty that ACTING versus DIFFICULTY succeedes."
   (+ (mythic-extreme-rank-modifier acting)
      (- (mythic-extreme-rank-modifier difficulty))
      (nth (mythic-rank-pos (mythic-truncate-rank difficulty))
@@ -310,11 +311,14 @@ Also appends a record to the buffer *Mythic Log*."
 (defvar mythic-register (make-list 10 'nil))
 
 (defun mythic-set-register (register &rest args)
+  "Set REGISTER to ARGS.
+ARGS should be a callable list."
   (let ((pos (mythic-numkey-to-pos (+ 48 (prefix-numeric-value register)))))
     (if (and pos (>= pos 0) (< pos 10))
 	(setf (nth pos mythic-register) args))))
 
 (defun mythic-numkey-to-pos (numkey)
+  "Translate numeric key NUMKEY to its number value."
   (cond ((and (> numkey 48) (< numkey 58))
 	 (- numkey 49))
 	((= numkey 48)
@@ -322,11 +326,13 @@ Also appends a record to the buffer *Mythic Log*."
 	((error "Registers must be between 0 and 9."))))
 
 (defun mythic-pos-to-register (pos)
+  "Translate postition POS in a list to its register number."
   (if (= pos 9)
       0
     (1+ pos)))
 
 (defun mythic-display-register ()
+  "Display a list of all registers in other buffer."
   (interactive)
   (let ((temp-buffer-show-hook '(fit-window-to-buffer)))
     (with-output-to-temp-buffer "*Mythic Register*"
@@ -338,6 +344,8 @@ Also appends a record to the buffer *Mythic Log*."
 	  (princ (format "%d. %S\n" register element))))))))
 
 (defun mythic-call-register ()
+  "Call a saved register function.
+The register to call is determined by the last input character."
   (interactive)
   (let ((list (nth (mythic-numkey-to-pos last-input-char) mythic-register)))
     (if (and (listp list) (not (null list)))
