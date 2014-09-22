@@ -309,10 +309,10 @@ Also appends a record to the buffer *Mythic Log*."
 
 (defvar mythic-register (make-list 10 'nil))
 
-(defun mythic-set-register (prefix &rest args)
-  (let ((register (mythic-numkey-to-pos (+ 48 (prefix-numeric-value prefix)))))
-    (if (and register (>= register 0) (< register 10))
-	(setf (nth register mythic-register) args))))
+(defun mythic-set-register (register &rest args)
+  (let ((pos (mythic-numkey-to-pos (+ 48 (prefix-numeric-value register)))))
+    (if (and pos (>= pos 0) (< pos 10))
+	(setf (nth pos mythic-register) args))))
 
 (defun mythic-numkey-to-pos (numkey)
   (cond ((and (> numkey 48) (< numkey 58))
