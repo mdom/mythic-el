@@ -219,11 +219,19 @@ CHARS is a list of possible characters."
 	  (nth (mythic-rank-pos (mythic-truncate-rank acting))
 	       mythic-fate-chart))))
 
+(defun mythic-odds-lower (odds)
+  "Return the probability that a throw against ODDS results in an exceptional no."
+  (floor odds 5))
+
+(defun mythic-odds-upper (odds)
+  "Return the probability that a throw against ODDS results in an exceptional yes."
+  (- 100 (floor (- 99 odds) 5)))
+
 (defun mythic-ask-question (acting difficulty)
   (let* ((odds (mythic-get-odds acting difficulty))
 	 (throw (mythic-d100))
-	 (lower (floor odds 5))
-	 (upper (- 100 (floor (- 99 odds) 5)))
+	 (lower (mythic-odds-lower odds))
+	 (upper (mythic-odds-upper odds))
 	 (answer
 	  (mythic-threshold throw
 	    (lower 'exceptional-yes)
