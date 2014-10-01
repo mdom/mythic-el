@@ -205,6 +205,11 @@ CHARS is a list of possible characters."
     char))
 
 (defmacro mythic-threshold (throw &rest clauses)
+  "Check THROW against CLAUSES until one succeeds.
+Each clause looks like (THRESHOLD BODY...). If THROW is less than or
+equal to THRESHOLD, the expressions in BODY are evaluated and the last
+one's is the value of mythic-threshold.
+If no clause succeedes, return nil."
   (declare (indent 1))
   (let (result)
     (dolist (clause clauses result)
@@ -228,6 +233,12 @@ CHARS is a list of possible characters."
   (- 100 (floor (- 99 odds) 5)))
 
 (defun mythic-ask-question (acting difficulty)
+  "Return result of comparing ACTING vs DIFFICULTY on the fate chart.
+The result is an alist containing the keys answer, throw, odds, lower,
+upper and event. For example the following alist might be the result
+of a check against average and average:
+  (answer 'yes throw 45 odds 50 lower 10 upper 91 event nil).
+The values are easily accessable by mythic-get."
   (let* ((odds (mythic-get-odds acting difficulty))
 	 (throw (mythic-d100))
 	 (lower (mythic-odds-lower odds))
