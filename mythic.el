@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; # mythic.el --- major mode to play the mythic rpg in Emacs
+;; # Mythic for Emacs
 
 ;; ## Introduction
 
