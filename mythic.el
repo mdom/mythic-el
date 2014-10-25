@@ -281,11 +281,8 @@ If no clause succeedes, return nil."
 
 (defun mythic-ask-question (acting difficulty)
   "Return result of comparing ACTING vs DIFFICULTY on the fate chart.
-The result is an alist containing the keys answer, throw, odds, lower,
-upper and event. For example the following alist might be the result
-of a check against average and average:
-  (answer 'yes throw 45 odds 50 lower 10 upper 91 event nil).
-The values are easily accessable by mythic-get."
+The result is an struct containing the keys answer, throw, odds, lower,
+upper and event."
   (let* ((odds (mythic-get-odds acting difficulty))
 	 (throw (mythic-d100))
 	 (lower (mythic-odds-lower odds))
@@ -296,12 +293,15 @@ The values are easily accessable by mythic-get."
 	    (odds 'yes)
 	    ((1- upper) 'no)
 	    (100 'exceptional-no))))
-    `((answer ,answer)
-      (throw ,throw)
-      (odds ,odds)
-      (lower ,lower)
-      (upper  ,(if (>= upper 100) 0 upper))
-      (event ,(mythic-get-event throw)))))
+    (make-mythic-throw
+     :answer answer
+     :throw  throw
+     :odds   odds
+     :lower  lower
+     :upper  (if (>= upper 100) 0 upper)
+     :event  (mythic-get-event throw))))
+
+(defstruct mythic-throw answer throw odds lower upper event)
 
 (defun mythic-get-event (throw)
   "Return a random event if THROW meets the conditions.
@@ -315,16 +315,6 @@ This happens if THROW consists of the same digit twice and this digit
 is equal or lower than the chaos factor."
   (and (<= (/ throw 11) mythic-chaos-level)
        (= (% throw 11) 0)))
-
-(defun mythic-get (alist &rest keys)
-  "Return the the values of an alist specified by key.
-If just one key is specified, return the value. For multiple keys,
-return the the values as list."
-  (let ((result
-	 (mapcar (lambda (key) (cadr (assoc key alist))) keys)))
-    (if (= 1 (length keys))
-	(car result)
-      result)))
 
 (defun mythic-d100 ()
   "Return a random value between 1 and 100."
@@ -364,8 +354,8 @@ All odds questions are checked against this value.")
 (defun mythic-format-answer (answer)
   "Display a short form of ANSWER in the minibuffer.
 Also appends a record to the buffer *Mythic Log*."
-  (let ((message (format "Answer: %s" (mythic-get answer 'answer)))
-	(event (mythic-get answer 'event)))
+  (let ((message (format "Answer: %s" (mythic-throw-answer answer)))
+	(event (mythic-throw-event answer)))
     (if event
 	(message "%s -- Event: %s" message event)
       (message message))
@@ -373,8 +363,11 @@ Also appends a record to the buffer *Mythic Log*."
       (view-mode)
       (let (buffer-read-only)
 	(goto-char (point-max))
-	(insert (apply 'format "Odds: %d/%d/%d Throw: %d\n"
-		       (mythic-get answer 'lower 'odds 'upper 'throw)))))))
+	(insert (format "Odds: %d/%d/%d Throw: %d\n"
+		       (mythic-throw-lower answer)
+		       (mythic-throw-odds answer)
+		       (mythic-throw-upper answer)
+		       (mythic-throw-throw answer)))))))
 
 (defun mythic-display-log ()
   "Display question log in other window."
