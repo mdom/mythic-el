@@ -94,10 +94,7 @@
 (define-derived-mode mythic-mode text-mode "Mythic" "Mode to play mythic rpg"
   (make-local-variable 'mythic-chaos-level))
 
-(defvar mythic-mode-map nil
-  "Keys for mythic mode.")
-
-(unless mythic-mode-map
+(defvar mythic-mode-map  
   (let ((map (make-sparse-keymap)))
     (let (i)
       (dotimes (i 10)
@@ -117,7 +114,8 @@
     (define-key map (kbd "C-c C-a") 'mythic-add-scene)
     (define-key map (kbd "M-n") 'mythic-show-next-scene)
     (define-key map (kbd "M-p") 'mythic-show-prev-scene)
-    (setq mythic-mode-map map)))
+    map)
+  "Keys for mythic mode.")
 
 (defun mythic-show-next-scene ()
   "Display next scene."
