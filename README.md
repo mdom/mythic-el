@@ -10,7 +10,7 @@ rsolved by rolling on a table and interpret the results by logic.
 
 Mythic.el streamlines this process by handling the dice rolling and
 list management. This documentation deliberatly won't explain the
-rules of Mythic, you have to bay the books to learn more about
+rules of Mythic, you have to buy the books to learn more about
 Mythic.
 
 ## Installation
